@@ -1,0 +1,27 @@
+<h1>Listing room_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Base Rate</th>
+    <th>Facilities</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @room_types.each do |room_type| %>
+  <tr>
+    <td><%= room_type.name %></td>
+    <td><%= room_type.baserate if not room_type.baserate.nil? %></td>
+    <td><%= room_type.facilities %></td>
+    <td><%= link_to 'Show', room_type %></td>
+    <td><%= link_to 'Edit', edit_room_type_path(room_type) %></td>
+    <td><%= link_to 'Destroy', room_type, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Room type', new_room_type_path %>

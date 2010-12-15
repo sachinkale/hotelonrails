@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  room_id: 1
+  extraperson: 1
+  tax: 1
+  fromdate: 2010-12-01 12:14:48
+  todate: 2010-12-01 12:14:48
+  rate: 1
+  checkin_id: 1
+
+two:
+  room_id: 1
+  extraperson: 1
+  tax: 1
+  fromdate: 2010-12-01 12:14:48
+  todate: 2010-12-01 12:14:48
+  rate: 1
+  checkin_id: 1

@@ -1,0 +1,23 @@
+$('.data').html("<%= escape_javascript(render :partial => 'shared/checkout_table')%>");
+$('#service_item_checkin_id').val('<%= @checkin.id %>');
+$('#payment_checkin_id').val('<%= @checkin.id %>');
+$('.add_service').click(function(){
+$('#service_dialog').dialog('open');
+return false;
+});
+$('.add_payment').click(function(){
+$('#payment_dialog').dialog('open');
+return false;
+});
+<% if @checkin.pending_balance > 0 %>
+  $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
+  <% @checkin.status = "Pending Amount :" + @checkin.pending_balance.to_s %>
+<%else %>
+  $('#pending_amount_div').html('');
+<%end%>
+$('#checkout_form_div').html('<%= escape_javascript(render :partial => "/checkins/edit_checkin_form")%>')
+$('#totaldiv button').click(function(){
+    $('#checkout_dialog').dialog('open');
+ });
+
+

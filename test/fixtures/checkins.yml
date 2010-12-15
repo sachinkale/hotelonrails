@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  fromdate: 2010-11-27 16:58:25
+  todate: 2010-11-27 16:58:25
+  status: MyString
+
+two:
+  fromdate: 2010-11-27 16:58:25
+  todate: 2010-11-27 16:58:25
+  status: MyString

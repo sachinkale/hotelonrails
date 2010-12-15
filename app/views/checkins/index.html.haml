@@ -1,0 +1,162 @@
+.container_16
+  %h2 Listing checkins
+  - @checkins.each do |checkin|
+    .clear
+    - total_amount = 0;
+    .block-border.checkin{:id => "checkin-#{checkin.id}"}
+      .block-content
+        .guest
+          %h3 Guests
+          %ul.holder
+            - checkin.guests.each do |g|
+              %li.bit-box= "#{g.FirstName} #{g.LastName}"
+        %table
+          %tr
+            %th Room
+            %th Fromdate
+            %th Todate
+            %th ExtraPerson
+            %th Tax
+            %th Amount
+          - checkin.line_items.each do |li|
+            %tr
+              %td= li.room.number
+              %td= li.fromdate.strftime("%Y/%m/%d")
+              %td= li.todate.strftime("%Y/%m/%d")
+              %td= li.extraperson
+              %td= li.tax
+              - no_of_days = (li.todate - li.fromdate)/(60 * 60 * 24).floor
+              - amount = (( no_of_days <=0 ) ? li.rate : li.rate * no_of_days ) + li.extraperson + li.tax
+              - total_amount += amount
+
+              %td= amount
+          %tr
+            %th{:colspan => 5} Rooms Total Amount : 
+            %th
+              %span{:class => "room_total_amount"}= total_amount
+       
+        =link_to "Add Service","#", :class => "service_dialog_link",:id => "service-#{checkin.id}"
+        .services
+          %table
+            %tr
+              %th Service Type
+              %th Bill Number
+              %th Amount
+            - checkin.service_items.each do |si|
+              %tr
+                %td= si.service.name 
+                %td= si.billnumber
+                %td= si.amount
+            %tr
+              %th{:colspan => 2}
+                ="Total Service Amount"
+              %th
+                = checkin.service_items.sum(:amount)
+        .payments          
+          %table
+            %tr
+              %th Description
+              %th Amount
+            - checkin.payments.each do |p|
+              %tr
+                %td= p.description
+                %td= p.amount
+            %tr
+              %th
+                ="Total Payments"
+              %th
+                = checkin.payments.sum(:amount)
+        Pending Amount : 
+        %span{:class => 'pending_amount'}= total_amount + checkin.service_items.sum(:amount) - checkin.payments.sum(:amount) 
+        = link_to "Add Payment","#", :id => "payment_link-#{checkin.id}", :class => "payment_dialog_link"
+        = link_to "Checkout",edit_checkin_path(checkin), :remote => true
+
+  #service_dialog{ :title => "Add Service",:style => "display:none"}
+    =form_for :service_item, :url => "/home/add_service",:remote => true, :html => {:id => "service_form"} do |f|
+      .field
+        =f.label "Select"
+        =f.select :service_id, options_from_collection_for_select(Service.all,:id,:name)
+      .field
+        =f.label :amount
+        =f.text_field :amount
+
+      .field
+        =f.label :amount
+        =f.text_field :amount
+      .field
+        =f.label :billnumber
+        =f.text_field :billnumber
+      .field
+        =f.label :Description
+        =f.text_area :description
+        =f.hidden_field :checkin_id
+  #payment_dialog{:title => "Add Payments", :style => "display:none"}
+    =form_for :payment, :url => "/home/add_payment", :remote => true, :html => {:id => "payment_form"} do |f|
+      .field
+        =f.label :amount  
+        =f.text_field :amount
+      .field
+        =f.label :Description
+        =f.text_area :description
+        =f.hidden_field :checkin_id
+
+  %br
+  = link_to 'New Checkin', new_checkin_path
+  #checkout_dialog{:title => "Checkout", :style => "display:none;"}
+    #pending_amount_div
+    #checkout_form_div
+
+:javascript
+  $('#checkout_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#checkout_dialog form').submit();
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#service_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#service_form').submit();
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#payment_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#payment_form').submit();
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+
+  // Dialog Link
+  $('.service_dialog_link').click(function(){
+    arr = $(this).attr('id').split('-');
+    $('#service_item_checkin_id').val(arr[1]);
+    $('#service_dialog').dialog('open');
+    return false;
+  });
+  $('.payment_dialog_link').click(function(){
+    arr = $(this).attr('id').split('-');
+    $('#payment_checkin_id').val(arr[1]);
+    $('#payment_dialog').dialog('open');
+    return false;
+  });

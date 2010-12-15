@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  service_id: 1
+  amount: 1
+  billnumber: 1
+  description: MyText
+  checkin_id: 1
+
+two:
+  service_id: 1
+  amount: 1
+  billnumber: 1
+  description: MyText
+  checkin_id: 1

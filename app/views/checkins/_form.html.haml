@@ -1,0 +1,188 @@
+= form_for @checkin,:html => {:class => "form"}  do |f|
+  - if @checkin.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@checkin.errors.count, "error")
+        prohibited this checkin from being saved:
+      %ul
+        - @checkin.errors.full_messages.each do |msg|
+          %li= msg
+  .grid_16
+    .block-border
+      .block-content
+        %h1 Guest Details
+        %fieldset
+          %p.left{:style => "width:45%"}
+            = f.label :first_name
+            =text_field_tag "FirstName"
+          %p.right{:style => "width:45%"}
+            =f.label :last_name
+            =text_field_tag "LastName"
+          %p
+            %button{:onclick => "addguest();",:type=>"button"}="Add Guest"
+        %h4 Guests
+      %ul#guestholder.holder
+  .clear
+    &nbsp;
+  .grid_16
+    .block-border
+      .block-content
+        %h1 Checkin Details
+        %h4 Company Name
+        = select_tag :company,options_from_collection_for_select(Company.find(:all),:id,:name),{:name => "checkin[company_id]"}
+        %h4 Rooms
+        = link_to_function image_tag('add.jpg') ,"addroomrow();return false;",:style => "text-decoration:none;float:left;margin:25px 5px;"
+        %table.total{:border => "1", :cellpadding => "2", :rules => "all"}
+          %tbody
+            %tr
+              %th
+                Rooms
+              %th
+                Applied Rate
+              %th
+                From Date
+              %th
+                To Date
+              %th
+                No. of Days
+              %th
+                Extra Person
+              %th
+                Tax
+              %th
+                Amount
+            %tr
+              %td
+                .smalldiv= select_tag "room-1",options_from_collection_for_select(@rooms,"id","roomtype"), {:name => "room1[room_id]"}
+              %td
+                %input#rate1{:name => "room1[rate]", :type => "text", :value => @rooms[0].room_type.baserate}
+              %td
+                %input#fromdatepicker1{:name => "room1[fromdate]", :style => "width:75px", :type => "text", :value => Date.today.to_s}
+              %td
+                %input#todatepicker1{:name => "room1[todate]", :style => "width:75px", :type => "text", :value => Date.today.to_s}
+              %td#noofdays1
+                1
+              %td
+                %input#extraperson1{:name => "room1[extraperson]", :style => "width:75px", :type => "text", :value => "0"}
+              %td
+                %input#tax1{:name => "room1[tax]", :style => "width:75px", :type => "text", :value => "0"}
+              %td#amount1
+                = @rooms[0].room_type.baserate
+            %tr#totalamtrow
+              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+                Total
+              %td#totalamt
+                = @rooms[0].room_type.baserate
+            %tr
+              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+                Advance
+              %td
+                %input#advamt{:name => "payment[amount]", :type => "text", :value => "0"}
+                %input{:name => "payment[description]", :type => "hidden", :value => "Advance"}
+            %tr
+              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+                Pending Amount
+              %td#pendingamt
+                = @rooms[0].room_type.baserate
+        %br/
+        %p
+        .field
+          .actions
+            %button{:id => "checkin_submit",:name => "commit", :type => "submit", :value => "Create Checkin"}="Create Checkin"
+:javascript
+  function addroomrow(){
+    trows = $('.total tr').length - 2;
+    $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
+    id = trows - 1;
+    $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id);
+    $('.total tr:nth-child(' + trows + ') td div select').attr('name','room' + id + '[room_id]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','rate' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('name','room' + id + '[rate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','fromdatepicker' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('name','room' + id + '[fromdate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','todatepicker' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('name','room' + id + '[todate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(5)').attr('id','noofdays' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('id','extraperson' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('name','room' + id + '[extraperson]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('id','tax' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('name','room' + id + '[tax]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(8)').attr('id','amount' + id);
+
+    $('#room-' + id).live('change',function(){calculateroom(this);});
+    $('#rate' + id).live('change',function(){calculateall()});
+    $('#tax' + id).live('change',function(){calculateall()});
+    $('#extraperson' + id).live('change',function(){calculateall()});
+    $('#fromdatepicker' + id).live('change',function(){calculateall()});
+    $('#todatepicker' + id).live('change',function(){calculateall()});
+
+    $('#todatepicker' + id).removeClass('hasDatepicker')
+    $('#fromdatepicker' + id).removeClass('hasDatepicker')
+
+    $('#fromdatepicker' + id).datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
+    $('#todatepicker' + id).datepicker({dateFormat: "yy-mm-dd", defaultDate: Date.today});
+    calculateall();
+    $('.total tr:nth-child(' + trows  + ')').effect('highlight',2000);
+    return false;
+
+  }
+  function addguest(){
+    myl  = $('#guestholder li').length;
+    html = "<li class='bit-box'>" + $('#FirstName').val() + " " + $('#LastName').val()  + "<input type='hidden' value='" + $('#FirstName').val() + "#" + $('#LastName').val() + "' name='guest[" + myl + "]'/>" + "<a href='#' class='closebutton'></a> " + "</li>"
+    $('#guestholder').append(html);
+    return false;
+
+    }
+
+  function calculate_days(fdate,tdate){
+    from_day = $(fdate).datepicker('getDate');
+    to_day = $(tdate).datepicker('getDate');
+    noofdays = to_day.getTime() - from_day.getTime();
+
+    return (Math.floor(noofdays/ (1000 * 60 * 60 * 24)));
+    }  
+   $(function(){
+     $('#fromdatepicker1').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
+     $('#todatepicker1').datepicker({ dateFormat: "yy-mm-dd", defaultDate: Date.today});
+   });
+  function calculateall(){
+    rows = $('.total tr').length - 4;
+    total = 0;
+    for(i=1;i <= rows;i++){
+      ndays = calculate_days('#fromdatepicker' + i, '#todatepicker' + i);
+      if (ndays <= 0){
+        ndays = 1;
+      }
+      amt = parseInt($('#rate' + i).val()) * parseInt(ndays);
+      amt = amt + parseInt($('#tax' + i).val()) + parseInt($('#extraperson' + i).val())
+      $('#noofdays' + i).html(ndays);
+      $('#amount' + i).html(amt);
+      total = total + amt;
+    }
+    $('#totalamt').html(total);
+    pendingamount = total - parseInt($('#advamt').val());
+    $('#pendingamt').html(pendingamount);
+
+    $('#totalamt').effect('highlight',2000);
+    $('#pendingamt').effect('highlight',2000);
+    return false;
+  }
+
+  function calculateroom(s){
+    arr = $(s).find('option:selected').text().split('#')
+    price = parseInt(arr[1]);
+    arr1 = s.id.split('-');
+    $('#rate' + arr1[1]).val(price);
+    calculateall();
+  }
+
+
+
+  $('#room-1').bind('change',function(){calculateroom(this);});
+  $('#rate1').bind('change',function(){calculateall()});
+  $('#tax1').bind('change',function(){calculateall()});
+  $('#extraperson1').bind('change',function(){calculateall()});
+  $('#fromdatepicker1').bind('change',function(){calculateall()});
+  $('#todatepicker1').bind('change',function(){calculateall()});
+  $('#advamt').bind('change',function(){calculateall()});
+

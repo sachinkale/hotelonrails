@@ -1,0 +1,18 @@
+html = "<tr><td><%= @payment.created_at.strftime("%Y/%m/%d") %></td><td><%= @payment.amount %></td></tr>"
+trows = $('.checkout #payments table tr').length - 1
+$('.checkout #payments table tr:nth-child(' + trows + ')').after(html);
+newtrows = $('.checkout #payments table tr').length - 1
+$('.checkout #payments table tr:nth-child(' + newtrows + ')').effect('highlight',2000);
+$('.checkout #payments table tr:last td:last').html(<%= @payment.checkin.payments.sum(:amount) %>);
+$('#totaldiv .payment').html(<%= @payment.checkin.payments.sum(:amount) %>)
+amt = parseInt($('#totaldiv .pending').text()) - parseInt(<%= @payment.amount %>)
+$('#totaldiv .pending').html(amt);
+$('#totaldiv .pending').effect('hightlight',2000);
+<% if @payment.checkin.pending_balance > 0 %>
+  $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
+  $('#checkin_status').val('<%= "Pending Amount :" + @payment.checkin.pending_balance.to_s %>');
+<% else %>
+  $('#pending_amount_div').html('');
+<%end%>
+
+

@@ -1,0 +1,7 @@
+<% if @checkin.pending_balance > 0 %>
+  $('#pending_amount_div').html('<span color="red">Amount is pending, Please add payments before proceeding!</span>');
+  <% @checkin.status = "Pending Amount -" + @checkin.pending_balance.to_s %>
+<%end%>
+$('#checkout_form_div').html('<%= escape_javascript(render :partial => "edit_checkin_form")%>')
+$('#checkout_dialog').dialog('open');
+

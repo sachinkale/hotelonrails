@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  inchargeperson: MyString
+  address: MyText
+  email: MyString
+  phone: MyString
+  creditlimit: 1
+
+two:
+  name: MyString
+  inchargeperson: MyString
+  address: MyText
+  email: MyString
+  phone: MyString
+  creditlimit: 1

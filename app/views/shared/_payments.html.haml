@@ -1,0 +1,16 @@
+%h4 
+  Payments
+%ul
+  %li
+    =link_to "+ add","#",:class => "add_payment",:id => "paymentcheckinid-#{@checkin.id}"
+%table{:style => "float:right"}
+  %tr
+    %th Date
+    %th Amount
+  -@checkin.payments.each do |p|
+    %tr
+      %td= p.created_at.strftime("%Y/%m/%d")
+      %td= p.amount
+  %tr
+    %th{:scope => "row"} Total Payments
+    %td.payment= @checkin.payments.sum(:amount)

@@ -1,0 +1,68 @@
+.checkout
+  %ul
+    %li 
+      %b Bill to:
+    -if @checkin.company_id == 1
+      - if @checkin.guests.length < 2
+        %li= @checkin.guests[0].name
+      - else
+        %li= select_tag :bill_to, options_from_collection_for_select(@checkin.guests,:id,:name)
+    -else
+      %li= select_tag :bill_to, "<option>#{@checkin.company.name}</option>" + options_from_collection_for_select(@checkin.guests,:id,:name)
+  %ul.checkin{:style => "float:right"}
+    %li 
+      %b Checkin Date:
+    %li= @checkin.created_at.strftime("%Y/%m/%d")
+  %hr
+  %h4 Room Charges
+  -tamount = 0
+  %table
+    %tr
+      %th Room
+      %th Rate
+      %th Discount
+      %th Applied Rate
+      %th Extra Person
+      %th Tax
+      %th Total Per Day
+      %th No of Days
+      %th Amount
+      - @checkin.line_items.each do |li|
+        %tr
+          %td= li.room.number
+          %td= li.room.room_type.baserate
+          %td= "#{(100 - (li.rate.to_f/li.room.room_type.baserate.to_f) * 100).round(2)}%"
+          %td= li.rate
+          %td= li.extraperson
+          %td= li.tax
+          %td= li.rate + li.extraperson + li.tax
+          %td= li.no_of_days.to_s
+          %td= li.amount
+          -tamount += li.amount
+    %tr
+      %th{:colspan => 8} Total Rooms Charges
+      %td.charges= tamount
+
+  %hr   
+  #othercharges
+    =render :partial => "shared/other_charges"
+  %hr      
+  #payments
+    =render :partial => "shared/payments"
+  %hr
+  #totaldiv
+    %button checkout
+    %table{:style => "float:right"}
+      %tr
+        %th{:scope => "row"} Total Charges
+        %td.charges= tamount + @checkin.service_items.sum(:amount)
+      %tr
+        %th{:scope => "row"} Total Payments
+        %td.payment= @checkin.payments.sum(:amount)
+      %tr
+        %th{:scope => "row"} Total Pending
+        %td.pending= tamount + @checkin.service_items.sum(:amount) - @checkin.payments.sum(:amount)
+
+
+
+ 

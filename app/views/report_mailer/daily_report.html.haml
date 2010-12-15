@@ -1,0 +1,28 @@
+%b="Todays Checkins"
+- @checkins.each do |checkin|
+  -total_amount = 0
+  %table{:border => 1}
+    %tr
+      %th Room
+      %th Fromdate
+      %th Todate
+      %th ExtraPerson
+      %th Tax
+      %th Amount
+    - checkin.line_items.each do |li|
+      %tr
+        %td= li.room.number
+        %td= li.fromdate.strftime("%Y/%m/%d")
+        %td= li.todate.strftime("%Y/%m/%d")
+        %td= li.extraperson
+        %td= li.tax
+        - no_of_days = (li.todate - li.fromdate)/(60 * 60 * 24).floor
+        - amount = (( no_of_days <=0 ) ? li.rate : li.rate * no_of_days ) + li.extraperson + li.tax
+        - total_amount += amount
+
+        %td= amount
+    %tr
+      %th{:colspan => 5} Rooms Total Amount : 
+      %th
+        %span{:class => "room_total_amount"}= total_amount
+
