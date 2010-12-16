@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101205111954) do
+ActiveRecord::Schema.define(:version => 20101216135301) do
 
   create_table "checkins", :force => true do |t|
     t.datetime "fromdate"
@@ -72,6 +72,12 @@ ActiveRecord::Schema.define(:version => 20101205111954) do
     t.text     "description"
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "room_types", :force => true do |t|
     t.string   "name"
     t.text     "facilities"
@@ -102,6 +108,17 @@ ActiveRecord::Schema.define(:version => 20101205111954) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "login"
+    t.string   "email"
+    t.string   "crypted_password"
+    t.string   "password_salt"
+    t.string   "persistence_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "role_id"
   end
 
 end

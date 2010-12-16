@@ -1,6 +1,12 @@
 Hsahara::Application.routes.draw do
   resources :services
 
+  resource :user_session
+ 
+  resource :account, :controller => "users"
+
+  resources :users
+
   resources :companies
 
   get "home/index"

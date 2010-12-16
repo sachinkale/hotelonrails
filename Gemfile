@@ -9,6 +9,7 @@ gem 'mysql2'
 gem 'haml'
 gem 'jquery-rails'
 gem 'will_paginate','3.0.pre2'
+gem 'authlogic'
 
 # Use unicorn as the web server
 # gem 'unicorn'
