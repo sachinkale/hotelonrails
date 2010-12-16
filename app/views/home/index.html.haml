@@ -12,6 +12,28 @@
         =render :partial => "shared/roomtable"
 
     .right{:style => "width:440px;min-height:500px;"}
+      %p Note - Not suitable for IE, Firefox < 2.0, since it will be desktop deployed application, enjoying the bliss of no cross browser development as of now! IE compatibilty in pipeline..
+      %hr
+      %h3 More Features Coming Soon..
+      %ul
+        %li
+          Login / Role Based functions
+        %li
+          Reservations Module
+        %li
+          Restaurant Module
+        %li
+          Reporting Module
+        %li
+          Online Offline Website Reservation Sync
+        %li
+          Mini CRM
+        %li
+          Credit Card Scanner Interface
+        %li
+          and any future requirement..
+      
+
 
 #service_dialog{ :title => "Add Service",:style => "display:none"}
   =form_for :service_item, :url => "/home/add_service",:remote => true, :html => {:id => "service_form"} do |f|

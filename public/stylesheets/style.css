@@ -503,4 +503,10 @@ font-size:80%;
 .checkout table td{border:1px solid #ccc;text-align:center;vertical-align:middle;padding:3px;font-size:0.80em;line-height:12px;}
 td.charges{background:#3399cc;color:#fff;}
 td.payment{background:#99cc33;color:#fff;}
-
+.right p,h3,h4,li{
+color:#222;
+text-shadow:1px 1px 1px #fff;
+}
+.right ul{
+list-style:circle inside;
+}
