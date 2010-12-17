@@ -14,10 +14,11 @@
         %fieldset
           %p.left{:style => "width:45%"}
             = f.label :first_name
-            =text_field_tag "FirstName"
+            =text_field_tag "FirstName",''
           %p.right{:style => "width:45%"}
             =f.label :last_name
-            =text_field_tag "LastName"
+            =text_field_tag "LastName",''
+
           %p
             %button{:onclick => "addguest();",:type=>"button"}="Add Guest"
         %h4 Guests
@@ -90,6 +91,19 @@
           .actions
             %button{:id => "checkin_submit",:name => "commit", :type => "submit", :value => "Create Checkin"}="Create Checkin"
 :javascript
+  $(document).ready(function(){
+    $("#new_checkin").validate({
+    submitHandler: function(form) {
+      myln  = $('#guestholder li').length;
+      if(myln <=0) {
+        alert('Please add guests!');
+      }
+      else{
+        form.submit();
+      }
+    }
+    });
+  });
   function addroomrow(){
     trows = $('.total tr').length - 2;
     $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
@@ -128,8 +142,15 @@
   }
   function addguest(){
     myl  = $('#guestholder li').length;
-    html = "<li class='bit-box'>" + $('#FirstName').val() + " " + $('#LastName').val()  + "<input type='hidden' value='" + $('#FirstName').val() + "#" + $('#LastName').val() + "' name='guest[" + myl + "]'/>" + "<a href='#' class='closebutton'></a> " + "</li>"
-    $('#guestholder').append(html);
+    if(($('#FirstName').val() == '')||($('#LastName').val() == '')){
+      alert('First Name and Last Name is required');
+    }
+    else{
+      $('#FirstName').removeClass('required');
+      $('#LastName').removeClass('required');
+      html = "<li class='bit-box'>" + $('#FirstName').val() + " " + $('#LastName').val()  + "<input type='hidden' value='" + $('#FirstName').val() + "#" + $('#LastName').val() + "' name='guest[" + myl + "]'/>" + "<a href='#' class='closebutton'></a> " + "</li>"
+      $('#guestholder').append(html);
+    }
     return false;
 
     }

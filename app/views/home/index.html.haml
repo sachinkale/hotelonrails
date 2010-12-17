@@ -72,6 +72,14 @@
   #checkout_form_div
 
 :javascript
+  $('#service_form').bind("ajax:loading",  function(){
+    $('.add_service').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
+  });
+  $('#payment_form').bind("ajax:loading",  function(){
+    $('.add_payment').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
+  });
+
+
   $(document).ready(function() {
     /*$('.checkedin').hover(
       function(){
@@ -109,6 +117,7 @@
       panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
     }
       $.ajax({
+      beforeSend: function(){$('.data').html('<div style="margin:100px";><img src="/images/smallloading.gif"/>&nbsp;<b>Loading..</b></div>');},
       url: '/home/getcheckin/' + id
       }
       );

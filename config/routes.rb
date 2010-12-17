@@ -15,6 +15,8 @@ Hsahara::Application.routes.draw do
 
   get "home/send_report"
 
+  match "/admin" => "home#admin"
+
   match "home/getcheckin/:id" => "home#getcheckin"
 
   post "home/add_service"
