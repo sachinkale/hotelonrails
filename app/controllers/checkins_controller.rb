@@ -25,7 +25,7 @@ class CheckinsController < ApplicationController
   # GET /checkins/new.xml
   def new
     @checkin = Checkin.new
-    @rooms = Room.all
+    @rooms = Room.where("status is NULL");
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @checkin }
@@ -84,6 +84,12 @@ class CheckinsController < ApplicationController
 
     respond_to do |format|
       if @checkin.update_attributes(params[:checkin])
+        if not @checkin.status.nil?
+          @checkin.line_items.each do |li|
+            li.room.update_attribute('status',nil)
+            li.room.save!
+          end
+        end
         format.html { redirect_to(root_url, :notice => 'Checkin was successfully updated.') }
         format.xml  { head :ok }
       else
