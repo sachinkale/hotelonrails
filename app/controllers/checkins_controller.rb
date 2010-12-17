@@ -26,6 +26,7 @@ class CheckinsController < ApplicationController
   def new
     @checkin = Checkin.new
     @rooms = Room.where("status is NULL");
+    @company = Company.new
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @checkin }

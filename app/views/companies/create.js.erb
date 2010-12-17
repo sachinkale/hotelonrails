@@ -1,0 +1,3 @@
+$('#company option:last').before($('<option></option>').val('<%= @company.id %>').text('<%= @company.name %>'));
+$('#company').val('<%= @company.id %>');
+$('#loading').remove();

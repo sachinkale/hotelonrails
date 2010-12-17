@@ -45,6 +45,7 @@ class CompaniesController < ApplicationController
     respond_to do |format|
       if @company.save
         format.html { redirect_to(@company, :notice => 'Company was successfully created.') }
+        format.js
         format.xml  { render :xml => @company, :status => :created, :location => @company }
       else
         format.html { render :action => "new" }

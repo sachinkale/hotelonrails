@@ -30,7 +30,7 @@
       .block-content
         %h1 Checkin Details
         %h4 Company Name
-        = select_tag :company,options_from_collection_for_select(Company.find(:all),:id,:name),{:name => "checkin[company_id]"}
+        = select_tag :company,options_for_select(Company.all.collect{|c| [c.name,c.id]}.push(['Add new','add_new'])),{:name => "checkin[company_id]"}
         %h4 Rooms
         = link_to_function image_tag('add.jpg') ,"addroomrow();return false;",:style => "text-decoration:none;float:left;margin:25px 5px;"
         %table.total{:border => "1", :cellpadding => "2", :rules => "all"}
@@ -92,6 +92,23 @@
             %button{:id => "checkin_submit",:name => "commit", :type => "submit", :value => "Create Checkin"}="Create Checkin"
 
 #error_dialog{:title => "Error",:style => "display:none;"}
+
+#add_new_company{:title => "Add New Company",:style => "display:none;"}
+  =form_for @company, :remote => true do |f|
+    .field
+      =f.label :name
+      =f.text_field :name
+    .field
+      =f.label "Incharge Person"
+      =f.text_field :inchargeperson
+    .field
+      =f.label "Email"
+      =f.text_field :email
+    .field
+      =f.label "Phone"
+      =f.text_field :phone
+
+
 :javascript
   $(document).ready(function(){
     $("#new_checkin").validate({
@@ -110,19 +127,14 @@
     trows = $('.total tr').length - 2;
     $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
     id = trows - 1;
-    $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id);
-    $('.total tr:nth-child(' + trows + ') td div select').attr('name','room' + id + '[room_id]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','rate' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('name','room' + id + '[rate]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','fromdatepicker' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('name','room' + id + '[fromdate]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','todatepicker' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('name','room' + id + '[todate]');
+    $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id).attr('name','room' + id + '[room_id]').val(trows);
+
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','rate' + id).attr('name','room' + id + '[rate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','fromdatepicker' + id).attr('name','room' + id + '[fromdate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','todatepicker' + id).attr('name','room' + id + '[todate]');
     $('.total tr:nth-child(' + trows  + ') td:nth-child(5)').attr('id','noofdays' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('id','extraperson' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('name','room' + id + '[extraperson]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('id','tax' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('name','room' + id + '[tax]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('id','extraperson' + id).attr('name','room' + id + '[extraperson]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('id','tax' + id).attr('name','room' + id + '[tax]');
     $('.total tr:nth-child(' + trows  + ') td:nth-child(8)').attr('id','amount' + id);
 
     $('#room-' + id).live('change',function(){calculateroom(this);});
@@ -223,8 +235,40 @@
     $('#error_dialog').dialog('open');
   }
   $('.closebutton').live('click',function(){
-    console.log('here');
     $(this).parent().remove();
     return false;
   });
+  
+
+  $('#add_new_company').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Add": function() { 
+        if($('#company_name').val() == ''){
+          myalert('Company Name is required');
+        }
+        else{
+          $('#new_company').submit();
+          $(this).dialog("close"); 
+        }
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+        $('#company').val('1');
+      }
+    }
+  });
+
+  $('#company').change(function(){
+    if($(this).find('option:selected').text() == "Add new"){
+      $('#add_new_company').dialog('open');
+    }
+  });
+  $('#new_company').bind("ajax:loading",function(){
+    $('#company').before('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
+  });
+
+
+
 
