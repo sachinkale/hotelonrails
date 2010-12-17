@@ -88,7 +88,7 @@ ul.holder li.bit-box { -moz-border-radius: 6px; -webkit-border-radius: 6px; bord
 ul.holder li.bit-box a.closebutton { position: absolute; right: 4px; top: 5px; display: block; width: 7px; height: 7px; font-size: 1px; background: url('/images/close.gif'); }
 ul.holder li.bit-box a.closebutton:hover { background-position: 7px; }
 ul.holder li.bit-box-focus a.closebutton, ul.holder li.bit-box-focus a.closebutton:hover { background-position: bottom; }
-ul.holder { width: 500px; }
+ul.holder { width:100%; }
 ul.holder { margin: 0 !important }
 ul.holder li.bit-box, #apple-list ul.holder li.bit-box { padding-right: 15px; position: relative; z-index:1000;}
 .smalldiv{float:left;margin: 0px 5px}

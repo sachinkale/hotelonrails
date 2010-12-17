@@ -63,10 +63,12 @@ class CheckinsController < ApplicationController
         params[:guest].each do |key,value|
           arr = value.split(/#/)
           guest = Guest.new
-          guest.FirstName = arr[0]
-          guest.LastName = arr[1]
-          guest.save!
-          @checkin.guests << guest
+          if arr[0] != "" || arr[1] != ""
+            guest.FirstName = arr[0]
+            guest.LastName = arr[1]
+            guest.save!
+            @checkin.guests << guest
+          end
         end
         format.html { redirect_to(root_url, :notice => 'Checkin was successfully created.') }
         format.xml  { render :xml => @checkin, :status => :created, :location => @checkin }

@@ -22,7 +22,7 @@
           %p
             %button{:onclick => "addguest();",:type=>"button"}="Add Guest"
         %h4 Guests
-      %ul#guestholder.holder
+        %ul#guestholder.holder
   .clear
     &nbsp;
   .grid_16
@@ -90,13 +90,15 @@
         .field
           .actions
             %button{:id => "checkin_submit",:name => "commit", :type => "submit", :value => "Create Checkin"}="Create Checkin"
+
+#error_dialog{:title => "Error",:style => "display:none;"}
 :javascript
   $(document).ready(function(){
     $("#new_checkin").validate({
     submitHandler: function(form) {
       myln  = $('#guestholder li').length;
       if(myln <=0) {
-        alert('Please add guests!');
+        myalert('Please add guests!');
       }
       else{
         form.submit();
@@ -143,7 +145,7 @@
   function addguest(){
     myl  = $('#guestholder li').length;
     if(($('#FirstName').val() == '')||($('#LastName').val() == '')){
-      alert('First Name and Last Name is required');
+      myalert('First Name and Last Name is required');
     }
     else{
       $('#FirstName').removeClass('required');
@@ -206,4 +208,23 @@
   $('#fromdatepicker1').bind('change',function(){calculateall()});
   $('#todatepicker1').bind('change',function(){calculateall()});
   $('#advamt').bind('change',function(){calculateall()});
+
+  $('#error_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Ok": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  function myalert(str){
+    $('#error_dialog').html('<p>' + str + '</p>');
+    $('#error_dialog').dialog('open');
+  }
+  $('.closebutton').live('click',function(){
+    console.log('here');
+    $(this).parent().remove();
+    return false;
+  });
 
