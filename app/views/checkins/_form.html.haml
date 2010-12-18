@@ -118,17 +118,26 @@
         myalert('Please add guests!');
       }
       else{
-        form.submit();
+         var myarr = [];
+         $.each( $('select:[id^=room]'), function(){
+          myarr.push($(this).find('option:selected').attr('value'));
+        });
+        if(myarr.length > $.unique(myarr).length){
+          myalert('Please select different rooms');
+        }
+        else{
+          form.submit();
+        }
       }
     }
     });
   });
   function addroomrow(){
     trows = $('.total tr').length - 2;
-    $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
     id = trows - 1;
-    $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id).attr('name','room' + id + '[room_id]').val(trows);
-
+    $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
+    $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id).attr('name','room' + id + '[room_id]');
+    $('.total tr:nth-child(' + trows  + ') td div select').val($('.total tr:nth-child(' + trows  + ') td div select option:selected').next().attr('value'));
     $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','rate' + id).attr('name','room' + id + '[rate]');
     $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','fromdatepicker' + id).attr('name','room' + id + '[fromdate]');
     $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','todatepicker' + id).attr('name','room' + id + '[todate]');

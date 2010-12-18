@@ -48,35 +48,41 @@ class CheckinsController < ApplicationController
   def create
     @checkin = Checkin.new(params[:checkin])
     respond_to do |format|
-      if @checkin.save
-        params[:payment][:checkin_id] = @checkin.id
-        if(params[:payment][:amount] != 0)
-          @payment = Payment.new(params[:payment])
-          @payment.save!
-        end
-        1.upto(24) do |i|
-          if not params["room#{i.to_s}"].nil?
-            params["room#{i.to_s}"][:checkin_id] = @checkin.id
-            line_item = LineItem.new(params["room#{i.to_s}"])
-            line_item.save!
+      if not params[:guest].nil?
+        if @checkin.save 
+          params[:payment][:checkin_id] = @checkin.id
+          if(params[:payment][:amount] != 0)
+            @payment = Payment.new(params[:payment])
+            @payment.save!
           end
-        end
-        params[:guest].each do |key,value|
-          arr = value.split(/#/)
-          guest = Guest.new
-          if arr[0] != "" || arr[1] != ""
-            guest.FirstName = arr[0]
-            guest.LastName = arr[1]
-            guest.save!
-            @checkin.guests << guest
+          1.upto(24) do |i|
+            if not params["room#{i.to_s}"].nil?
+              params["room#{i.to_s}"][:checkin_id] = @checkin.id
+              line_item = LineItem.new(params["room#{i.to_s}"])
+              line_item.save!
+            end
           end
+          params[:guest].each do |key,value|
+            arr = value.split(/#/)
+            guest = Guest.new
+            if arr[0] != "" || arr[1] != ""
+              guest.FirstName = arr[0]
+              guest.LastName = arr[1]
+              guest.save!
+              @checkin.guests << guest
+            end
+          end
+          format.html { redirect_to(root_url, :notice => 'Checkin was successfully created.') }
+          format.xml  { render :xml => @checkin, :status => :created, :location => @checkin }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @checkin.errors, :status => :unprocessable_entity }
         end
-        format.html { redirect_to(root_url, :notice => 'Checkin was successfully created.') }
-        format.xml  { render :xml => @checkin, :status => :created, :location => @checkin }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @checkin.errors, :status => :unprocessable_entity }
+          format.html { redirect_to :action => "new",:notice => "Please add guests" }
       end
+ 
+
     end
   end
 
