@@ -4,7 +4,7 @@ class LineItem < ActiveRecord::Base
   before_save :block_room
   
   def amount
-    (rate  + extraperson + tax ) * no_of_days
+    (rate  + extraperson + ((rate + extraperson) * tax/100).to_i ) * no_of_days
   end
 
   def no_of_days

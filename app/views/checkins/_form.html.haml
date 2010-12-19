@@ -39,6 +39,8 @@
               %th
                 Rooms
               %th
+                Discount
+              %th
                 Applied Rate
               %th
                 From Date
@@ -49,14 +51,17 @@
               %th
                 Extra Person
               %th
-                Tax
+                Tax Rate
               %th
                 Amount
             %tr
               %td
                 .smalldiv= select_tag "room-1",options_from_collection_for_select(@rooms,"id","roomtype"), {:name => "room1[room_id]"}
               %td
-                %input#rate1{:name => "room1[rate]", :type => "text", :value => @rooms[0].room_type.baserate}
+                %input#discount1{:style => "display:inline;width:30px;", :value => "0"}
+                ="%"
+              %td
+                %input#rate1{:name => "room1[rate]", :type => "text", :value => @rooms[0].room_type.baserate, :class => "rate"}
               %td
                 %input#fromdatepicker1{:name => "room1[fromdate]", :style => "width:75px", :type => "text", :value => Date.today.to_s}
               %td
@@ -64,28 +69,29 @@
               %td#noofdays1
                 1
               %td
-                %input#extraperson1{:name => "room1[extraperson]", :style => "width:75px", :type => "text", :value => "0"}
+                %input#extraperson1{:name => "room1[extraperson]", :style => "width:55px", :type => "text", :value => "0"}
               %td
-                %input#tax1{:name => "room1[tax]", :style => "width:75px", :type => "text", :value => "0"}
+                %input#tax1{:name => "room1[tax]", :style => "display:inline;width:30px;",  :value => "0"}
+                ="%"
               %td#amount1
                 = @rooms[0].room_type.baserate
             %tr#totalamtrow
-              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+              %td{:colspan => "8", :style => "text-align:right;font-weight:bold"}
                 Total
               %td#totalamt
                 = @rooms[0].room_type.baserate
             %tr
-              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+              %td{:colspan => "8", :style => "text-align:right;font-weight:bold"}
                 Advance
               %td
                 %input#advamt{:name => "payment[amount]", :type => "text", :value => "0"}
                 %input{:name => "payment[description]", :type => "hidden", :value => "Advance"}
             %tr
-              %td{:colspan => "7", :style => "text-align:right;font-weight:bold"}
+              %td{:colspan => "8", :style => "text-align:right;font-weight:bold"}
                 Pending Amount
               %td#pendingamt
                 = @rooms[0].room_type.baserate
-        %br/
+        %br
         %p
         .field
           .actions
@@ -138,13 +144,15 @@
     $('.total tr:nth-child(' + trows + ')').before($('.total tr:nth-child(2)').clone());
     $('.total tr:nth-child(' + trows  + ') td div select').attr('id','room-' + id).attr('name','room' + id + '[room_id]');
     $('.total tr:nth-child(' + trows  + ') td div select').val($('.total tr:nth-child(' + trows  + ') td div select option:selected').next().attr('value'));
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','rate' + id).attr('name','room' + id + '[rate]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','fromdatepicker' + id).attr('name','room' + id + '[fromdate]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','todatepicker' + id).attr('name','room' + id + '[todate]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(5)').attr('id','noofdays' + id);
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(6) input').attr('id','extraperson' + id).attr('name','room' + id + '[extraperson]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('id','tax' + id).attr('name','room' + id + '[tax]');
-    $('.total tr:nth-child(' + trows  + ') td:nth-child(8)').attr('id','amount' + id);
+    
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(2) input').attr('id','discount' + id).attr('name','discount' + id + '[discount]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(3) input').attr('id','rate' + id).attr('name','room' + id + '[rate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(4) input').attr('id','fromdatepicker' + id).attr('name','room' + id + '[fromdate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(5) input').attr('id','todatepicker' + id).attr('name','room' + id + '[todate]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(6)').attr('id','noofdays' + id);
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(7) input').attr('id','extraperson' + id).attr('name','room' + id + '[extraperson]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(8) input').attr('id','tax' + id).attr('name','room' + id + '[tax]');
+    $('.total tr:nth-child(' + trows  + ') td:nth-child(9)').attr('id','amount' + id);
 
     $('#room-' + id).live('change',function(){calculateroom(this);});
     $('#rate' + id).live('change',function(){calculateall()});
@@ -152,6 +160,8 @@
     $('#extraperson' + id).live('change',function(){calculateall()});
     $('#fromdatepicker' + id).live('change',function(){calculateall()});
     $('#todatepicker' + id).live('change',function(){calculateall()});
+
+    $('#discount' + id ).live('change',function(){calculateroom($(this).parent().prev().find('select'))});
 
     $('#todatepicker' + id).removeClass('hasDatepicker')
     $('#fromdatepicker' + id).removeClass('hasDatepicker')
@@ -197,11 +207,24 @@
       if (ndays <= 0){
         ndays = 1;
       }
-      amt = parseInt($('#rate' + i).val()) * parseInt(ndays);
-      amt = amt + parseInt($('#tax' + i).val()) + parseInt($('#extraperson' + i).val())
+
+      rate =parseInt($('#rate' + i).val());
+      if(!rate) rate = 0;
+
+      extraperson = parseInt($('#extraperson' + i).val());
+      if(!extraperson) extraperson = 0;
+
+      tax = parseFloat($('#tax' + i ).val());
+
+      amt = rate * parseInt(ndays);
+
+      amt = amt + ((amt + extraperson) * tax/100) + extraperson;
+
       $('#noofdays' + i).html(ndays);
-      $('#amount' + i).html(amt);
-      total = total + amt;
+
+      $('#amount' + i).html(parseInt(amt));
+
+      total = total + parseInt(amt);
     }
     $('#totalamt').html(total);
     pendingamount = total - parseInt($('#advamt').val());
@@ -215,8 +238,11 @@
   function calculateroom(s){
     arr = $(s).find('option:selected').text().split('#')
     price = parseInt(arr[1]);
-    arr1 = s.id.split('-');
-    $('#rate' + arr1[1]).val(price);
+    arr1 = $(s).attr('id').split('-');
+    discount = parseFloat($('#discount' + arr1[1]).val());
+    if(!discount) discount = 0;
+    var myamt = price - (price * discount/100);
+    $('#rate' + arr1[1]).val(myamt);
     calculateall();
   }
 
@@ -229,6 +255,8 @@
   $('#fromdatepicker1').bind('change',function(){calculateall()});
   $('#todatepicker1').bind('change',function(){calculateall()});
   $('#advamt').bind('change',function(){calculateall()});
+  $('#discount1').bind('change',function(){calculateroom($(this).parent().prev().find('select'))});
+
 
   $('#error_dialog').dialog({
     autoOpen: false,
@@ -278,6 +306,11 @@
     $('#company').before('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
   });
 
+  /*$('.discount1').change(function(){
+    $(this).parent.next().find('input[id^=rate]').
+
+
+  });*/
 
 
 
