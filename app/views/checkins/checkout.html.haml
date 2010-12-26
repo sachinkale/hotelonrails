@@ -80,7 +80,7 @@
       %tr
         %td.right{:style => "border:none;"}
           %b Total Room Charges
-        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+        %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b=tamount.to_f
       %tr
         %td.checkout{:style => "border-bottom:none"}
@@ -104,18 +104,18 @@
       %tr
         %td.right{:style => "border:none;"}
           %b Total Other Charges
-        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+        %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b= @checkin.service_items.sum(:amount)
       %tr
         %td.right
           %b Total Charges
-        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+        %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b= @checkin.service_items.sum(:amount) + tamount
       -if (@checkin.total_charges - @checkin.payments.sum(:amount) > 0)
         %tr
           %td.right
             %b Discount
-          %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+          %td.right{:style => "border-left:1px solid #000;border-top:none;"}
             %b=@checkin.total_charges - @checkin.payments.sum(:amount) 
 
       %tr
@@ -138,7 +138,7 @@
       %tr
         %td.right{:style => "border:none;"}
           %b Total Amount
-        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+        %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b= @checkin.payments.sum(:amount).to_f
 
       %tr
