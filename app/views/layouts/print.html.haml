@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %title= @title
+    = stylesheet_link_tag "print"
+    = stylesheet_link_tag "print", :media => :print
+  %body 
+    = yield
+

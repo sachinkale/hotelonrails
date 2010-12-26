@@ -53,6 +53,9 @@
       =f.label :billnumber
       =f.text_field :billnumber
     .field
+      =f.label :date
+      =datetime_select :service_item,:date
+    .field
       =f.label :Description
       =f.text_area :description
       =f.hidden_field :room_id
@@ -142,6 +145,8 @@
       "Save": function() { 
         $(this).dialog("close"); 
         $('#checkout_dialog form').submit();
+        window.open('/checkout/' + $('#service_item_checkin_id').val(),'Check Out', 'height=400,width=400');
+        window.location="/";
       }, 
       "Cancel": function() { 
         $(this).dialog("close"); 

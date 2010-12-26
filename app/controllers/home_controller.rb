@@ -26,11 +26,9 @@ class HomeController < ApplicationController
 
   def my_add_payment
 
-
   end
 
   def my_add_service
-
 
   end
 

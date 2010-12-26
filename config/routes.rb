@@ -23,6 +23,8 @@ Hsahara::Application.routes.draw do
 
   post "home/add_payment"
 
+  get "/checkout/:id" => "checkins#checkout"
+
   resources :checkins
 
   resources :rooms

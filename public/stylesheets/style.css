@@ -510,3 +510,11 @@ text-shadow:1px 1px 1px #fff;
 .right ul{
 list-style:circle inside;
 }
+@font-face {
+  font-family: 'myGeorgia';
+  font-style: normal;
+  font-weight: normal;
+  src: local('myGeorgia'), url('/fonts/georgia.ttf') format('truetype');
+
+}
+

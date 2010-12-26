@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101219111438) do
+ActiveRecord::Schema.define(:version => 20101226125032) do
 
   create_table "checkins", :force => true do |t|
     t.datetime "fromdate"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20101219111438) do
   create_table "line_items", :force => true do |t|
     t.integer  "room_id"
     t.integer  "extraperson"
-    t.decimal  "tax",         :precision => 10, :scale => 0
+    t.decimal  "tax",         :precision => 10, :scale => 2
     t.datetime "fromdate"
     t.datetime "todate"
     t.integer  "rate"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20101219111438) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "room_id"
+    t.datetime "date"
   end
 
   create_table "services", :force => true do |t|

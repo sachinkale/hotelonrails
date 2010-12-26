@@ -1,4 +1,4 @@
-html = "<tr><td><%= @service_item.created_at.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
+html = "<tr><td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
 trows = $('.checkout #othercharges table tr').length - 1;
 $('.checkout #othercharges table tr:nth-child(' + trows + ')').after(html);
 newtrows = $('.checkout #othercharges table tr').length - 1;

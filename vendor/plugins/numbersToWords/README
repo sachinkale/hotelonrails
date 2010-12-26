@@ -1,0 +1,24 @@
+I could not find this plugin anywhere on the net anymore so I've brought it into github without changes. I haven't tested it thoroughly for Rails 2+, but it seems to work OK for me.
+
+=  numberToWords - convert your integers and floats to english, japanese, or american currency (dollars)
+
+- This plugin was created from a solution to the ruby quiz (english numbers) by Matthew D Moss.  I modified the code to work as a rails plugin and added the to_dollars method.
+- the to_dollars method will work with integers and floats
+- the to_english and to_japaneese methods will only work with integers.  If you have call these methods on a float, it will be converted to an integer before translating.
+
+= Examples
+ 123.to_english == one hundred and twenty-three
+ 123.to_japaneese == hyaku niju san
+ 123.to_dollars == one hundred and twenty-three dollars
+ money = 123.23
+ money.to_dollars == one hundred and twenty-three dollars and twenty-three cents
+ money = 1.01
+ money.to_dollars == one dollar and one cent
+
+= License
+ Ruby's - Do whatever you want whenever you want, with any part or all of this code.
+
+= Contributions
+ you can send patches, questions, or feature requests to anotherramble@recentrambles.com (this email address does not work any more)
+
+= Thank You Ruby Quiz and Matthew D Moss

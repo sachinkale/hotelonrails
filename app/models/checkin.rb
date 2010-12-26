@@ -18,4 +18,14 @@ class Checkin < ActiveRecord::Base
     li_amount + service_items.sum(:amount)
   end
 
+  def discount?
+    line_items.each do |li|
+      if li.rate < li.room.room_type.baserate
+        return true
+      end
+    end
+    return false
+  end
+
 end
+

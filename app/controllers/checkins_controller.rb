@@ -100,6 +100,7 @@ class CheckinsController < ApplicationController
           end
         end
         format.html { redirect_to(root_url, :notice => 'Checkin was successfully updated.') }
+        format.js { }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -119,4 +120,13 @@ class CheckinsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def checkout
+    @checkin = Checkin.find(params[:id])
+    @title = "Print Invoice"
+    respond_to do |format|
+      format.html { render :layout => "print"}
+    end
+  end
+
 end

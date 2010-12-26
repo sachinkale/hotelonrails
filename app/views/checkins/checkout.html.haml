@@ -1,0 +1,161 @@
+-tamount = 0
+/.printmsg
+/  %a{:href => "#"} Print
+.printdiv{:style => "width:100%;clear:both;"}
+  #header{:style => "clear:both;width:100%;overflow:auto;"}
+    .logo{:style => "float:left:width:70%;float:left"}
+      =image_tag APP_CONFIG['hotel_logo']
+     
+    .omega{:style => "text-align:right;vertical-align:bottom;width:20%;float:right;"}
+      %h1 Invoice
+    %br
+  %div
+    %p.address
+      =APP_CONFIG['hotel_address_line1']
+      ,&nbsp;
+      =APP_CONFIG['hotel_address_line2']
+      ,&nbsp;
+      =APP_CONFIG['hotel_address_line3']
+      %br
+      Email:&nbsp;
+      =APP_CONFIG['hotel_email']
+      ,&nbsp;
+      Website:
+      =APP_CONFIG['hotel_website']
+      ,&nbsp;
+      Phone:
+      =APP_CONFIG['hotel_phone']
+
+
+  #content{:style => "clear:both:width:100%"}
+    .grid_12.alpha{:style => "float:left;width:40%"}
+      Guest Name:
+      %b=@checkin.guests[0].name
+      %br
+      Address:
+      %b=@checkin.guests[0].address 
+    .grid_6{:style => "float:right;width:30%;"}
+      Invoice Date: 
+      %b=Date.today
+      %br
+      Invoice Number:
+      %b 1235
+    .clear{:style => "clear:both;margin:5px 0px;"}
+    %table{:style => "width:100%"}
+      %tr
+        %th Details
+        %th Amount
+      %tr
+        %td.checkout{:style => "border:none"}
+          %h4 Room Charges:
+          %table
+            %tr
+              %th Room
+              %th Rate
+              -if @checkin.discount?
+                %th Discount
+                %th Applied Rate
+              %th Extra Person
+              %th Tax
+              %th Total Per Day
+              %th No of Days
+              %th Amount
+              - @checkin.line_items.each do |li|
+                %tr
+                  %td= li.room.number
+                  %td= li.room.room_type.baserate
+                  - if @checkin.discount?
+                    %td= "#{(100 - (li.rate.to_f/li.room.room_type.baserate.to_f) * 100).round(2)}%"
+                    %td= li.rate
+                  %td= li.extraperson
+                  %td= li.tax
+                  %td= li.rate + li.extraperson + li.tax
+                  %td= li.no_of_days.to_s
+                  %td= li.amount
+                  -tamount += li.amount
+            %tr
+              %th{:colspan => "#{ @checkin.discount? ? 8 : 6}"} Total 
+              %td.charges= tamount
+        %td{:style => "border-bottom:none"}
+      %tr
+        %td.right{:style => "border:none;"}
+          %b Total Room Charges
+        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+          %b=tamount.to_f
+      %tr
+        %td.checkout{:style => "border-bottom:none"}
+          %h4 Other Charges:
+          %table
+            %tr
+              %th Date
+              %th Type
+              %th Room
+              %th Amount
+            - @checkin.service_items.each do |si|
+              %tr
+                %td= si.date.strftime("%Y/%m/%d")
+                %td= si.service.name
+                %td= si.room.number if not si.room.nil?
+                %td= si.amount
+            %tr
+              %th{:scope => "row", :colspan => 3} Total Other Charges
+              %td.charges= @checkin.service_items.sum(:amount)
+        %td{:style => "border-bottom:none"}
+      %tr
+        %td.right{:style => "border:none;"}
+          %b Total Other Charges
+        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+          %b= @checkin.service_items.sum(:amount)
+      %tr
+        %td.right
+          %b Total Charges
+        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+          %b= @checkin.service_items.sum(:amount) + tamount
+      -if (@checkin.total_charges - @checkin.payments.sum(:amount) > 0)
+        %tr
+          %td.right
+            %b Discount
+          %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+            %b=@checkin.total_charges - @checkin.payments.sum(:amount) 
+
+      %tr
+        %td.checkout{:style => "border-bottom:none"}
+          %h4 Payments:
+          %table
+            %tr
+              %th Date
+              %th Description
+              %th Amount
+            -@checkin.payments.each do |p|
+              %tr
+                %td= p.created_at.strftime("%Y/%m/%d")
+                %td= p.description
+                %td= p.amount
+            %tr
+              %th{:scope => "row", :colspan => 2} Total Payments
+              %td.payment= @checkin.payments.sum(:amount)
+        %td{:style => "border-bottom:none"}
+      %tr
+        %td.right{:style => "border:none;"}
+          %b Total Amount
+        %td.right{:style => "border-left:1px solid #ccc;border-top:none;"}
+          %b= @checkin.payments.sum(:amount).to_f
+
+      %tr
+        %td{:colspan => 2}
+          %b Total Amount in Words:
+          ="Rs. " +  (@checkin.payments.sum(:amount)).to_i.to_english.capitalize + " only."
+
+
+    %table.signature
+      %tr
+        %td For Hotel Sahara
+        %td 
+          For 
+          =@checkin.guests[0].name
+
+          
+
+
+
+
