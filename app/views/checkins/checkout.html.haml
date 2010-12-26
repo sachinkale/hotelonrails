@@ -68,8 +68,8 @@
                     %td= "#{(100 - (li.rate.to_f/li.room.room_type.baserate.to_f) * 100).round(2)}%"
                     %td= li.rate
                   %td= li.extraperson
-                  %td= li.tax
-                  %td= li.rate + li.extraperson + li.tax
+                  %td= li.tax.to_s + "%"
+                  %td= (li.rate  + li.extraperson + ((li.rate + li.extraperson) * li.tax/100).to_i ) 
                   %td= li.no_of_days.to_s
                   %td= li.amount
                   -tamount += li.amount
