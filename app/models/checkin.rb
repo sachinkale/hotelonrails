@@ -4,6 +4,7 @@ class Checkin < ActiveRecord::Base
   has_many :payments
   has_and_belongs_to_many :guests
   belongs_to :company
+  belongs_to :bill_to_owner,:polymorphic => true
 
 
   def pending_balance

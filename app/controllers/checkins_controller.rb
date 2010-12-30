@@ -55,7 +55,7 @@ class CheckinsController < ApplicationController
             @payment = Payment.new(params[:payment])
             @payment.save!
           end
-          1.upto(24) do |i|
+          1.upto(Room.all.length) do |i|
             if not params["room#{i.to_s}"].nil?
               params["room#{i.to_s}"][:checkin_id] = @checkin.id
               line_item = LineItem.new(params["room#{i.to_s}"])

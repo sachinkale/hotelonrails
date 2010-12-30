@@ -29,11 +29,11 @@
 
   #content{:style => "clear:both:width:100%"}
     .grid_12.alpha{:style => "float:left;width:40%"}
-      Guest Name:
-      %b=@checkin.guests[0].name
+      To:
+      %b=@checkin.bill_to_owner.name
       %br
       Address:
-      %b=@checkin.guests[0].address 
+      %b=@checkin.bill_to_owner.address 
     .grid_6{:style => "float:right;width:30%;"}
       Invoice Date: 
       %b=Date.today

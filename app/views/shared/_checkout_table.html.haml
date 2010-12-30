@@ -8,7 +8,7 @@
       - else
         %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| g.name})
     -else
-      %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| g.name}.unshift(@checkin.company.name))
+      %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| [g.name, "Guest-#{g.id}"]}.unshift([@checkin.company.name, "Company-#{@checkin.company.id}"]))
   %ul.checkin{:style => "float:right"}
     %li 
       %b Checkin Date:

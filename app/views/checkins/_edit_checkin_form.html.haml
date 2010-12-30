@@ -3,4 +3,11 @@
     =f.label :notes
     =f.text_area :description
     =f.hidden_field :status
+    -if @checkin.company_id == 1
+      =f.hidden_field :bill_to_owner_id,{:value =>  @checkin.guests[0].id.to_s}
+      =f.hidden_field :bill_to_owner_type,{:value =>  "Guest"}
+    -else
+      =f.hidden_field :bill_to_owner_id,{:value =>  @checkin.company.id.to_s}
+      =f.hidden_field :bill_to_owner_type,{:value =>  "Company"}
+
     

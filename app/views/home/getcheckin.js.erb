@@ -19,5 +19,10 @@ $('#checkout_form_div').html('<%= escape_javascript(render :partial => "/checkin
 $('#totaldiv button').click(function(){
     $('#checkout_dialog').dialog('open');
  });
+$('#bill_to').change(function(){
+    myarr = $(this).find('option:selected').val().split('-');
+    $('#checkin_bill_to_owner_id').val(myarr[1]);
+    $('#checkin_bill_to_owner_type').val(myarr[0]);
+    });
 
 
