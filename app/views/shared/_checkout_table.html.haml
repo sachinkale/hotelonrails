@@ -29,7 +29,13 @@
       %th Amount
       - @checkin.line_items.each do |li|
         %tr
-          %td= li.room.number
+          %td
+            -if @checkin.line_items.length > 1
+              %a{:href => "#", :id => "split-#{li.id}", :class => "splitlink"}
+                = li.room.number 
+                %span{"class" => "ui-icon ui-icon-extlink", :style => "margin-right:0px;float:right;"}
+            -else
+              =li.room.number
           %td= li.room.room_type.baserate
           %td= "#{(100 - (li.rate.to_f/li.room.room_type.baserate.to_f) * 100).round(2)}%"
           %td= li.rate

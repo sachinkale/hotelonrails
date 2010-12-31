@@ -1,0 +1,16 @@
+$('#srow-<%= @service_item.id %>').remove();
+$('.checkout #othercharges table tr:last td:last').html(<%= @checkin.service_items.sum(:amount) %>);
+$('.checkout #othercharges table tr:last').effect('highlight',2000);
+amt = parseInt($('#totaldiv .pending').text()) - parseInt(<%= @service_item.amount %>)
+$('#totaldiv .pending').html(amt);
+amt2 = parseInt($('#totaldiv .charges').text()) - parseInt(<%= @service_item.amount %>);
+$('#totaldiv .charges').html(amt2);
+<% if @checkin.pending_balance > 0 %>
+  $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
+  $('#checkin_status').val('<%= "Pending Amount :" + @checkin.pending_balance.to_s %>');
+<% else %>
+  $('#pending_amount_div').html('');
+<%end%>
+$('#loading').remove();
+
+

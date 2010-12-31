@@ -24,5 +24,18 @@ $('#bill_to').change(function(){
     $('#checkin_bill_to_owner_id').val(myarr[1]);
     $('#checkin_bill_to_owner_type').val(myarr[0]);
     });
+$('.splitlink').click(function(){
+    $('#splitroom_line_item_id').val($(this).attr('id'));
+    $('#split_room_number').html($(this).text());
+    $('#splitroom_dialog').dialog('open');
+    });
+
+$('.delete_service').click(function(){
+    $('#delete_service_item_id').val($(this).parent().parent().attr('id').split('-')[1]);
+    $('#delete_room_service_dialog').dialog('open');
+    return false;
+    });
+
+
 
 

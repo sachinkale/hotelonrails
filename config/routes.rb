@@ -1,4 +1,7 @@
 Hsahara::Application.routes.draw do
+
+  delete "home/delete_service" 
+
   resources :services
 
   resource :user_session
@@ -15,6 +18,8 @@ Hsahara::Application.routes.draw do
 
   get "home/send_report"
 
+  put "home/split_room"
+
   match "/admin" => "home#admin"
 
   match "home/getcheckin/:id" => "home#getcheckin"
@@ -22,6 +27,7 @@ Hsahara::Application.routes.draw do
   post "home/add_service"
 
   post "home/add_payment"
+
 
   get "/checkout/:id" => "checkins#checkout"
 

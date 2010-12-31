@@ -24,11 +24,16 @@ class HomeController < ApplicationController
     end
   end
 
-  def my_add_payment
-
+  def delete_service
+    @service_item = ServiceItem.find(params[:delete_service_item_id])
+    @checkin = @service_item.checkin
+    @service_item.destroy
+    respond_to do |format|
+      format.js
+    end
   end
 
-  def my_add_service
+  def delete_payment
 
   end
 
@@ -51,6 +56,28 @@ class HomeController < ApplicationController
     #@rooms = Room.paginate :page => params[:page], :order => 'created_at DESC'
     respond_to do |format|
       format.js
+    end
+  end
+
+  def split_room
+    line_item = LineItem.find(params[:splitroom_line_item_id].sub(/\D+/,''))
+    checkin = Checkin.new
+    checkin.company = line_item.checkin.company if not line_item.checkin.company.nil?
+    checkin.save!
+    checkin.guests << line_item.checkin.guests
+    line_item.checkin.service_items.each do |si|
+      if si.room_id == line_item.room_id
+        si.checkin = checkin
+        si.save!
+      end
+    end
+    line_item.checkin = checkin
+    line_item.save!
+    respond_to do |format|
+      format.html {
+        flash[:notice] = "Splitted Room as a new checkin successfully"
+        redirect_to :action => "index"
+      }
     end
   end
 

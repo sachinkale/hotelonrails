@@ -74,6 +74,20 @@
   #pending_amount_div
   #checkout_form_div
 
+#splitroom_dialog{:title => "Split Room as New Checkin", :style => "display:none;"}
+  Do you want to split Room -
+  %span{:id => "split_room_number"}
+  into separate checkin?
+  =form_tag "/home/split_room",:id => "splitroom_form", :method => "put" do
+    =hidden_field_tag :splitroom_line_item_id
+
+#delete_room_service_dialog{:title => "Delete Room Service", :style => "display:none;"}
+  Do you want to delete Room Service
+  %span{:id => "delete_room_service"}
+  Item?
+  =form_tag "/home/delete_service", :id => "delete_service_form", :method => :delete, :remote => true do
+    =hidden_field_tag "delete_service_item_id"
+
 :javascript
   $('#service_form').bind("ajax:loading",  function(){
     $('.add_service').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
@@ -81,7 +95,9 @@
   $('#payment_form').bind("ajax:loading",  function(){
     $('.add_payment').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
   });
-
+  $('#delete_service_form').bind("ajax:loading",  function(){
+    $('.add_service').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
+  });
 
   $(document).ready(function() {
     /*$('.checkedin').hover(
@@ -179,4 +195,32 @@
       } 
     }
   });
+
+  $('#splitroom_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Yes": function() { 
+        $(this).dialog("close"); 
+        $('#splitroom_form').submit();
+      }, 
+      "No": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#delete_room_service_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Yes": function() { 
+        $(this).dialog("close"); 
+        $('#delete_service_form').submit();
+      }, 
+      "No": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+
 

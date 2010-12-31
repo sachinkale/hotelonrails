@@ -1,4 +1,5 @@
-html = "<tr><td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
+html = "<tr id=<%= 'srow-' + @service_item.id.to_s%>><td><a href='#' class='delete_service'><span class='ui-icon ui-icon-close'></span></a></td>"
+html += "<td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
 trows = $('.checkout #othercharges table tr').length - 1;
 $('.checkout #othercharges table tr:nth-child(' + trows + ')').after(html);
 newtrows = $('.checkout #othercharges table tr').length - 1;
@@ -15,6 +16,12 @@ $('#totaldiv .charges').html(amt2);
 <% else %>
   $('#pending_amount_div').html('');
 <%end%>
+$('.delete_service').click(function(){
+    $('#delete_service_item_id').val($(this).parent().parent().attr('id').split('-')[1]);
+    $('#delete_room_service_dialog').dialog('open');
+    return false;
+    });
+
 $('#loading').remove();
 
 
