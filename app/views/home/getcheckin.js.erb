@@ -18,6 +18,7 @@ return false;
 $('#checkout_form_div').html('<%= escape_javascript(render :partial => "/checkins/edit_checkin_form")%>')
 $('#totaldiv button').click(function(){
     $('#checkout_dialog').dialog('open');
+    return false;
  });
 $('#bill_to').change(function(){
     myarr = $(this).find('option:selected').val().split('-');
@@ -28,6 +29,7 @@ $('.splitlink').click(function(){
     $('#splitroom_line_item_id').val($(this).attr('id'));
     $('#split_room_number').html($(this).text());
     $('#splitroom_dialog').dialog('open');
+    return false;
     });
 
 $('.delete_service').click(function(){
