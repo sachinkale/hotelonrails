@@ -3,10 +3,11 @@
 Installation - 
 Steps 
 1. run 'bundle install' in the app directory and create mysql database 'hotelonrails'
-2. rake db:schema:load
+2. rake db:schema:load #load the schema in database
+3. rake db:seed #for loading dummy rooms/room_types
 
 Configuration -
-Edit config/app-config.yml file to enter Hotel/Property Details
+Edit config/app-config.yml file to enter Hotel/Property Details like - Hotel Name, Address, Email, Website etc
 
 Issues - 
 Please file issues here - 
