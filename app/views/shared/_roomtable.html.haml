@@ -3,13 +3,7 @@
     - checkin = Checkin.new
     - room.line_items.each do |li|
       -if li.checkin.status.nil?
-        /%li
-        /  =link_to "Add Service","#", :class => "add_service",:id => "service-#{checkin.id}"
-        /%li
-        /  =link_to "Add Payment","#", :id => "payment_link-#{checkin.id}", :class => "add_payment"
-        /  /%a.add_payment{:href => "#"}="Add Payments"
         -checkin = li.checkin
-
     %tr.block{:id => "#{checkin.created_at.nil? ? '' : 'room-' + room.id.to_s  + '-checkin-' + checkin.id.to_s}", :class => "#{checkin.created_at.nil? ? '' : 'checkedin'}"}
       %th{:scope => 'row'}= room.number
       %td

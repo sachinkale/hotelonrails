@@ -13,6 +13,8 @@ room_types = RoomType.create([{ :name => "Economy Non AC", :baserate => "990"},{
 
 room_types1 = Array.new
 
+Company.create(:name => "None") #default company for walkins
+
 1.upto(24) do |i|
   if i < 13
     number = 100 + i
