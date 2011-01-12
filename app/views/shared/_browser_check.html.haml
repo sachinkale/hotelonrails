@@ -1,0 +1,41 @@
+#browser_check_dialog{:title => "Browser not supported", :style => "display:none"}
+  #browser_msg
+  #browser_div
+    %ul
+      %li.chrome
+        %a{:href => "http://www.google.com/chrome"}
+          ="Google Chrome"
+      %li.firefox
+        %a{:href => "http://www.google.com/chrome"}
+          ="Firefox 3.5+"
+      %li.safari
+        %a{:href => "http://www.google.com/chrome"}
+          ="Apple Safari"
+
+
+:javascript
+  $('#browser_check_dialog').dialog({
+    autoOpen: false,
+    width: 500,
+    height: 200,
+    modal: true,
+    buttons: {
+      "I have been warned, let me in": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+
+  jQuery.each(jQuery.browser, function(i) {
+    if($.browser.msie){
+      $('#browser_msg').html('Your browser is not supported, please view this site in following browsers:');
+      $('#browser_check_dialog').dialog('open');
+    }
+    else if($.browser.mozilla){
+      if( parseFloat($.browser.version) < parseFloat('3.5') ){
+        $('#browser_msg').html('Your browser is not supported, please view this site in following browsers:');
+        $('#browser_check_dialog').dialog('open');
+      }
+    }
+  });
+

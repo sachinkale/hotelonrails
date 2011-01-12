@@ -322,7 +322,7 @@ background-image:url('/images/admin.png');
 background-position:8px 2px;
 }
 #header ul li.current, #header ul li a:hover{
-background-color:#e5e5e5;
+background-color:#DADADA;
 -moz-border-radius: 0.333em;
 -webkit-border-radius: 0.333em;
 text-shadow:0 1px 2px rgba(0, 0, 0, 0.698);
@@ -516,5 +516,31 @@ list-style:circle inside;
   font-weight: normal;
   src: local('myGeorgia'), url('/fonts/georgia.ttf') format('truetype');
 
+}
+#browser_div ul li {
+float:left;
+margin:5px;
+}
+.chrome a{
+background-image: url('/images/chrome.jpg');
+}
+.firefox a{
+background-image: url('/images/firefox.jpg');
+}
+.safari a{
+background-image: url('/images/safari.jpg');
+}
+#browser_msg{
+margin:10px;
+color:#ff6600;
+}
+#browser_div ul li a{
+display:block;
+font-size:10px;
+height:50px;
+line-height:50px;
+padding-left:54px;
+background-repeat:no-repeat;
+font-weight:bold;
 }
 

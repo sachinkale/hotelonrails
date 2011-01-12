@@ -13,6 +13,7 @@
     = javascript_include_tag "rails"
     = csrf_meta_tag
   %body
+    = render :partial => "shared/browser_check"
     = render :partial => "shared/header"
     .container_16
       = yield
