@@ -14,6 +14,7 @@ room_types = RoomType.create([{ :name => "Economy Non AC", :baserate => "990"},{
 room_types1 = Array.new
 
 Company.create(:name => "None") #default company for walkins
+Service.create([{:name => "Room Service"},{:name => "Laundry Service"}])
 
 1.upto(24) do |i|
   if i < 13

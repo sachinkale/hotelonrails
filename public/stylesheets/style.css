@@ -135,7 +135,7 @@ vertical-align:middle;
 color:#666;
 text-shadow:1px 1px 1px #fff;
 }
-body{background:#f3f3f3 url(/images/bg.png) no-repeat;}
+body{background:url(/images/bg.png) repeat-y;}
 .roomlist tbody tr:nth-child(2n) td,.total tbody tr:nth-child(2n) {
   background:none repeat scroll 0 0 #E6E6E6;
 }
@@ -543,4 +543,13 @@ padding-left:54px;
 background-repeat:no-repeat;
 font-weight:bold;
 }
-
+p.notice,p.alert {
+padding-left:20px;
+}
+.close_alert{
+float:right;
+width:80px;
+}
+p.alert {
+color:red;
+}

@@ -13,8 +13,27 @@
     = javascript_include_tag "rails"
     = csrf_meta_tag
   %body
+    %p.notice
+      = notice
+      -if notice
+        %a{:href => "#", :class => "close_alert"}
+          %span{:class => "ui-icon ui-icon-close"}
+          close
+        
+    %p.alert
+      = alert
+      -if alert
+        %a{:href => "#", :class => "close_alert"}
+          %span{:class => "ui-icon ui-icon-close",:style => "float:left;"}
+          close
     = render :partial => "shared/browser_check"
     = render :partial => "shared/header"
     .container_16
       = yield
     .clear
+    :javascript
+      $('.close_alert').click(function () {
+        $(this).parent().slideUp('slow');
+        return false;
+      });
+

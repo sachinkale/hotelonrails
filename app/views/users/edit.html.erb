@@ -1,8 +1,0 @@
-<h1>Edit My Account</h1>
-
-<% form_for @user, :url => account_path do |f| %>
-<%= render :partial => "form", :object => f %>
-<%= f.submit "Update" %>
-<% end %>
-
-<br /><%= link_to "My Profile", account_path %>

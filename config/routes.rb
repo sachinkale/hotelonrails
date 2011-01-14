@@ -1,14 +1,10 @@
 Hsahara::Application.routes.draw do
 
+  devise_for :users
+
   delete "home/delete_service" 
 
   resources :services
-
-  resource :user_session
- 
-  resource :account, :controller => "users"
-
-  resources :users
 
   resources :companies
 
