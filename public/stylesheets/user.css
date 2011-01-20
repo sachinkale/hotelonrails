@@ -1,6 +1,6 @@
 body{ 
   background-image:url(/images/bg.png);
-background-color: #e4e4e4;
+  background-color: #a4a4a4;
   text-shadow:1px 1px 1px #ccc;
   color:#369;
 } 
@@ -31,7 +31,7 @@ h2{
 }
 #login
 {
-  padding: 0.833em;border: 1px solid white;border-color: rgba(255, 255, 255, 1.75);background: rgba(230, 230, 230, 0.2);-moz-border-radius: 0.8em;-webkit-border-radius: 0.8em;-webkit-background-clip: padding-box;border-radius: 0.8em;-moz-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);-webkit-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);}
+  padding: 0.833em;border: 1px solid white;border-color: rgba(255, 255, 255, 1.75);background: rgba(230, 230, 230, 1);-moz-border-radius: 0.8em;-webkit-border-radius: 0.8em;-webkit-background-clip: padding-box;border-radius: 0.8em;-moz-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);-webkit-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);}
 #login-content 
 {border: 1px solid #999999;-moz-border-radius: 0.25em;-webkit-border-radius: 0.25em;-webkit-background-clip: padding-box;border-radius: 0.25em;padding: 1.667em;-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);position: relative;}
 

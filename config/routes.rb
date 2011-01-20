@@ -1,5 +1,7 @@
 Hsahara::Application.routes.draw do
 
+  devise_for :admins
+
   devise_for :users
 
   delete "home/delete_service" 
