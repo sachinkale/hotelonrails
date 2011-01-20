@@ -1,0 +1,86 @@
+body{ 
+  background-image:url(/images/bg.png);
+background-color: #e4e4e4;
+  text-shadow:1px 1px 1px #ccc;
+  color:#369;
+} 
+a{
+color:#2971A7;
+}
+#logo{
+min-height:110px;
+padding-left:20px;
+margin-top:25px;
+}
+#fixedbox { position:absolute;right:50px;border:1px solid #ccc}
+#topbox { }
+@font-face {
+  font-family: 'geosans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('geosans'), url('/fonts/GeosansLight.ttf') format('truetype');
+
+}
+h1,h2,h3 {
+  font-family :Arial,Georgia;
+  text-transform:lowercase;
+  text-shadow:1px 1px 1px #fff;
+}
+h2{
+  letter-spacing:-1.5px;
+}
+#login
+{
+  padding: 0.833em;border: 1px solid white;border-color: rgba(255, 255, 255, 1.75);background: rgba(230, 230, 230, 0.2);-moz-border-radius: 0.8em;-webkit-border-radius: 0.8em;-webkit-background-clip: padding-box;border-radius: 0.8em;-moz-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);-webkit-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);}
+#login-content 
+{border: 1px solid #999999;-moz-border-radius: 0.25em;-webkit-border-radius: 0.25em;-webkit-background-clip: padding-box;border-radius: 0.25em;padding: 1.667em;-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);position: relative;}
+
+
+
+#login input[type=text]{
+background-color:#fff !important;
+}
+#login legend{
+margin-bottom:12px;text-shadow:none;
+}
+#login input[type=text],#login input[type=password]{
+padding:8px 5px 8px 8px;border:1px solid #999;width:220px;
+-moz-border-radius: 0.25em;-webkit-border-radius: 0.25em;
+}
+/*#login input[type=submit]{
+background:#333;text-transform:uppercase;width:auto !important;height:auto !important;padding:10px 27px !important;font-size:12px;font-weight:normal;text-shadow:#222 2px 2px;margin-top:50px;
+}*/
+#login input[type=submit]:hover{
+background:#1d305f;
+}
+#login span#show-password-group{
+background-color:#369;
+}
+#login #remember-me-group{
+margin-top:2px;margin-left:2px;
+}
+#login #footer_links{
+text-align:right;
+}
+#login input.invalid-av-text{
+border-bottom:0px !important;
+}
+#login span.invalid-error{
+margin-top:-5px;background:#eb9a9a !important;border:2px solid #369;border-top:0px;padding:8px 3px 8px 20px;z-index:10;width:310px;
+}
+#login span.invalid-error{
+border-bottom-right-radius:3px;border-bottom-left-radius:3px;-webkit-border-bottom-right-radius:3px;-moz-border-radius-bottomright:3px;-moz-border-radius-bottomleft:3px;
+}
+#mlogo{
+text-align:right
+width:100%;
+margin-bottom:50px;
+}
+#mlogo h1{
+text-align:right;
+font-size:55px;
+letter-spacing:-4px;
+}
+#accordion div{
+  color:#333 !important;
+}

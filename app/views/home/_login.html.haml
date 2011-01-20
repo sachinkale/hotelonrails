@@ -1,0 +1,61 @@
+#mlogo
+  %h1 hotel on rails
+
+
+#accordion
+  %h3
+    %a{:href => "#"} Introduction
+  %div 
+    hotel on rails ~ is a ruby on rails open source project aiming to simplyfy property management requirements for small hotels and lodging.
+  %h3
+    %a{:href => "#"} Assumed Workflow
+  %div 
+    %ul
+      %li
+        after login, the desk clerk would be able to see current checkins, todays revunue(work in progress), upcoming reservations(work in progress) on a single screen.
+      %li
+        desk clerk can make checkin, using ~ new checkin. every checkin is a group checkin by default, so rooms/guests/company can be added as needed. 
+  %h3
+    %a{:href => "#"} Features
+  %div 
+    %ul
+      %li
+        easy and intutive checkin interface
+      %li
+        customize services, add payments 
+      %li
+        split group checkins any time into individual checkins
+      %li
+        room shift/upgrade/downgrade (coming soon)
+      %li
+        reservation feature (coming soon)
+
+  %h3
+    %a{:href => "#"} customization and code
+  %div
+    =link_to "Please download code from here","https://github.com/sachinkale/hotelonrails"
+  %h3
+    %a{:href => "#"} installation instruction
+  %div
+    %ul
+      %li
+        Download the repository, 'cd' into the directory 
+      %li
+        run ~ bundle install #in the app directory and create mysql database 'hotelonrails'
+      %li
+        run ~ rake db:schema:load #load the schema in database
+      %li
+        run ~ rake db:seed #for loading dummy rooms/room_types
+  %h3 
+    %a{:href => "#"} Configuration 
+  %div
+    Edit config/app-config.yml file to enter Hotel/Property Details like - Hotel Name, Address, Email, Website etc
+  %h3
+    %a{:href => "#" } Issues  
+  %div
+    =link_to "Please file issues here", "https://github.com/sachinkale/hotelonrails/issues"
+
+
+  
+
+

@@ -3,6 +3,17 @@ class ApplicationController < ActionController::Base
 
   #filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
+    
+  layout :layout_by_resource
+
+  def layout_by_resource
+    if devise_controller?
+      "user"
+    else
+      "application"
+    end
+  end
+
 
   private
   def current_user_session

@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_filter :authenticate_user!
   def index
     @rooms = Room.paginate :page => params[:page],:order => "id"
     @home = true

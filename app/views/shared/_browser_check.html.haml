@@ -32,7 +32,8 @@
       $('#browser_check_dialog').dialog('open');
     }
     else if($.browser.mozilla){
-      if( parseFloat($.browser.version) < parseFloat('3.5') ){
+      console.log($.browser.version);
+      if( parseFloat($.browser.version) < parseFloat('1.9') ){
         $('#browser_msg').html('Your browser is not supported, please view this site in following browsers:');
         $('#browser_check_dialog').dialog('open');
       }

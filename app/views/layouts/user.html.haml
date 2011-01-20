@@ -5,13 +5,23 @@
     = stylesheet_link_tag "960/reset"
     = stylesheet_link_tag "960/text"
     = stylesheet_link_tag "960/960"
-    = stylesheet_link_tag "style"
-    = stylesheet_link_tag "custom-theme/jquery-ui-1.8.6.custom.css"
+    /= stylesheet_link_tag "style"
+    = stylesheet_link_tag "user"
+    = stylesheet_link_tag "css/custom-theme/jquery-ui-1.8.6.custom.css"
     = javascript_include_tag "jquery-1.4.4.min"
-    = javascript_include_tag "jquery-ui-1.8.6.custom.min"
-    = javascript_include_tag "jquery.validate.min"
+    = javascript_include_tag "jquery-ui-1.8.7.custom.min"
     = javascript_include_tag "rails"
     = csrf_meta_tag
+    :javascript
+      $(function() {
+       $( "#accordion" ).accordion({
+         event: "mouseover",
+         autoheight: false,
+         navigation: true
+       });
+      });
+    
+
   %body
     %p.notice
       = notice
@@ -26,9 +36,17 @@
         %a{:href => "#", :class => "close_alert"}
           %span{:class => "ui-icon ui-icon-close",:style => "float:left;"}
           close
-    = render :partial => "shared/header"
+
+    = render :partial => "shared/browser_check"
+    #topbox
     .container_16
-      = yield
+      .grid_11 
+        =render :partial => "home/login"
+      .grid_5
+        #logo
+          %small [ simple and intutive hotel management for small properties ]
+        #login
+          = yield
     .clear
     :javascript
       $('.close_alert').click(function () {
