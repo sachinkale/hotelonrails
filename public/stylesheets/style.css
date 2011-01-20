@@ -546,10 +546,6 @@ font-weight:bold;
 p.notice,p.alert {
 padding-left:20px;
 }
-.close_alert{
-float:right;
-width:80px;
-}
 p.alert {
 color:red;
 }

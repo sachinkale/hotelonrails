@@ -50,9 +50,6 @@ padding:8px 5px 8px 8px;border:1px solid #999;width:220px;
 /*#login input[type=submit]{
 background:#333;text-transform:uppercase;width:auto !important;height:auto !important;padding:10px 27px !important;font-size:12px;font-weight:normal;text-shadow:#222 2px 2px;margin-top:50px;
 }*/
-#login input[type=submit]:hover{
-background:#1d305f;
-}
 #login span#show-password-group{
 background-color:#369;
 }

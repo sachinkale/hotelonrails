@@ -1,0 +1,27 @@
+.ui-widget
+  -if notice
+    .ui-state-highlight.ui-corner-all{:style => "padding: 0 .7em;"}
+      %span{:class => "ui-icon ui-icon-info" , :style => "float: left; margin-right: .3em;"}
+      = notice
+      %a{:href => "#", :class => "close_alert"}
+        %span{:class => "ui-icon ui-icon-close"}
+        close
+  -if alert        
+    .ui-state-error.ui-corner-all{:style => "padding: 0 .7em;"}
+      %span{:class => "ui-icon ui-icon-alert" , :style => "float: left; margin-right: .3em;"}
+      = alert
+      %a{:href => "#", :class => "close_alert"}
+        %span{:class => "ui-icon ui-icon-close", :style => "float:left;margin-top:3px;"}
+        close
+
+:javascript
+  $('.close_alert').click(function () {
+    $(this).parent().slideUp('slow');
+    return false;
+  });
+:css
+  .close_alert{
+    float:right;
+    width:80px;
+  }
+

@@ -9,7 +9,7 @@
     = stylesheet_link_tag "user"
     = stylesheet_link_tag "css/custom-theme/jquery-ui-1.8.6.custom.css"
     = javascript_include_tag "jquery-1.4.4.min"
-    = javascript_include_tag "jquery-ui-1.8.7.custom.min"
+    = javascript_include_tag "jquery-ui-1.8.6.custom.min"
     = javascript_include_tag "rails"
     = csrf_meta_tag
     :javascript
@@ -23,20 +23,7 @@
     
 
   %body
-    %p.notice
-      = notice
-      -if notice
-        %a{:href => "#", :class => "close_alert"}
-          %span{:class => "ui-icon ui-icon-close"}
-          close
-        
-    %p.alert
-      = alert
-      -if alert
-        %a{:href => "#", :class => "close_alert"}
-          %span{:class => "ui-icon ui-icon-close",:style => "float:left;"}
-          close
-
+    = render :partial => "shared/notice"
     = render :partial => "shared/browser_check"
     #topbox
     .container_16
@@ -48,9 +35,5 @@
         #login
           = yield
     .clear
-    :javascript
-      $('.close_alert').click(function () {
-        $(this).parent().slideUp('slow');
-        return false;
-      });
+    
 
