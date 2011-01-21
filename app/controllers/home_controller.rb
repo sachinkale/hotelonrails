@@ -1,8 +1,15 @@
 class HomeController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :only => ['index','add_service','add_payment','delete_service','delete_payment','get_checkin','send_report','rooms','split_room']
   def index
     @rooms = Room.paginate :page => params[:page],:order => "id"
     @home = true
+  end
+
+  def login
+    respond_to do |format|
+      format.html { render :layout => "user" }
+    end
+    
   end
 
   def add_service
