@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_filter :authenticate_admin!
   # GET /services
   # GET /services.xml
   def index

@@ -42,33 +42,10 @@
 
 
 #service_dialog{ :title => "Add Service",:style => "display:none"}
-  =form_for :service_item, :url => "/home/add_service",:remote => true, :html => {:id => "service_form"} do |f|
-    .field
-      =f.label "Select"
-      =f.select :service_id, options_from_collection_for_select(Service.all,:id,:name)
-    .field
-      =f.label :amount
-      =f.text_field :amount
-    .field
-      =f.label :billnumber
-      =f.text_field :billnumber
-    .field
-      =f.label :date
-      =datetime_select :service_item,:date
-    .field
-      =f.label :Description
-      =f.text_area :description
-      =f.hidden_field :room_id
-      =f.hidden_field :checkin_id
+  =render :partial => "service_items/service_item_form"
+
 #payment_dialog{:title => "Add Payments", :style => "display:none"}
-  =form_for :payment, :url => "/home/add_payment", :remote => true, :html => {:id => "payment_form"} do |f|
-    .field
-      =f.label :amount  
-      =f.text_field :amount
-    .field
-      =f.label :Description
-      =f.text_area :description
-      =f.hidden_field :checkin_id
+  =render :partial => "payments/payment_form"
 
 #checkout_dialog{:title => "Checkout", :style => "display:none;"}
   #pending_amount_div
@@ -78,14 +55,14 @@
   Do you want to split Room -
   %span{:id => "split_room_number"}
   into separate checkin?
-  =form_tag "/home/split_room",:id => "splitroom_form", :method => "put" do
+  =form_tag split_room_url,:id => "splitroom_form", :method => "put" do
     =hidden_field_tag :splitroom_line_item_id
 
 #delete_room_service_dialog{:title => "Delete Room Service", :style => "display:none;"}
   Do you want to delete Room Service
   %span{:id => "delete_room_service"}
   Item?
-  =form_tag "/home/delete_service", :id => "delete_service_form", :method => :delete, :remote => true do
+  =form_tag delete_service_url, :id => "delete_service_form", :method => :delete, :remote => true do
     =hidden_field_tag "delete_service_item_id"
 
 :javascript
@@ -111,10 +88,15 @@
     );*/
   $('.checkedin').click(function()
   {
+  
   var id= $(this).attr('id');
+  
   myarr = id.split('-');
+  
   $('#service_item_room_id').val(myarr[1]);
+  
   var data_id= $(".data").attr('id');
+  
   if(data_id == ''){
     $('.data').attr('id','data' + id);
   }
@@ -135,11 +117,10 @@
     {
       panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
     }
-      $.ajax({
+    $.ajax({
       beforeSend: function(){$('.data').html('<div style="margin:100px";><img src="/images/smallloading.gif"/>&nbsp;<b>Loading..</b></div>');},
-      url: '/home/getcheckin/' + id
-      }
-      );
+      url: '/checkins/' + myarr[3]
+    });
   }
   return false;
   });
@@ -162,7 +143,7 @@
         $(this).dialog("close"); 
         $('#checkout_dialog form').submit();
         window.open('/checkout/' + $('#service_item_checkin_id').val(),'Check Out', 'height=400,width=400');
-        window.location="/";
+        window.location="/home/index";
       }, 
       "Cancel": function() { 
         $(this).dialog("close"); 

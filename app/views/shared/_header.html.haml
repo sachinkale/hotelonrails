@@ -3,14 +3,19 @@
     =APP_CONFIG['hotel_name']
   %ul
     %li{:class => "home #{@home?'current':''}"}
-      %a{:href => "/"}
-        %span="Home"
+      =link_to user_root_url do
+        %span Home
     %li{:class => "checkin #{current_page?(new_checkin_url)?'current':''}"}
       =link_to new_checkin_url do
-        %span="New Checkin"
+        %span New Checkin
     %li.admin
-      %a{:href => "/admin"}
-        %span="Admin"
+      =link_to admin_root_url do
+        %span Admin
+    - if user_signed_in?
+      %li.logout
+        =link_to destroy_user_session_path do
+          %span Logout
+
 #spacer
 .clear
 

@@ -1,0 +1,18 @@
+=form_for :service_item, :url => add_service_url,:remote => true, :html => {:id => "service_form"} do |f|
+  .field
+    =f.label "Select"
+    =f.select :service_id, options_from_collection_for_select(Service.all,:id,:name)
+  .field
+    =f.label :amount
+    =f.text_field :amount
+  .field
+    =f.label :billnumber
+    =f.text_field :billnumber
+  .field
+    =f.label :date
+    =datetime_select :service_item,:date
+  .field
+    =f.label :Description
+    =f.text_area :description
+    =f.hidden_field :room_id
+    =f.hidden_field :checkin_id

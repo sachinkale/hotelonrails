@@ -13,7 +13,6 @@ padding-left:20px;
 margin-top:25px;
 }
 #fixedbox { position:absolute;right:50px;border:1px solid #ccc}
-#topbox { }
 @font-face {
   font-family: 'geosans';
   font-style: normal;
@@ -24,7 +23,7 @@ margin-top:25px;
 h1,h2,h3 {
   font-family :Arial,Georgia;
   text-transform:lowercase;
-  text-shadow:1px 1px 1px #fff;
+  text-shadow:1px 1px -4px #fff;
 }
 h2{
   letter-spacing:-1.5px;

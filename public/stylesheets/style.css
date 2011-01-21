@@ -321,6 +321,10 @@ background-position:3px 2px;
 background-image:url('/images/admin.png');
 background-position:8px 2px;
 }
+#header ul li.logout a{
+background-image:url('/images/Exit.png');
+background-position:8px 2px;
+}
 #header ul li.current, #header ul li a:hover{
 background-color:#DADADA;
 -moz-border-radius: 0.333em;

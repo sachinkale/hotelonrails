@@ -1,33 +1,30 @@
 Hsahara::Application.routes.draw do
 
+  post "service_items/add_service", :as => "add_service"
+
+  delete "service_items/delete_service", :as => "delete_service"
+
+  post "payments/add_payment", :as => "add_payment"
+
+  get "payments/delete_payment"
+
   devise_for :admins
 
   devise_for :users
-
-  delete "home/delete_service" 
 
   resources :services
 
   resources :companies
 
-  get "home/index"
+  get "home/index", :as => "user_root"
 
   get "home/login"
 
-  get "home/rooms"
-
   get "home/send_report"
 
-  put "home/split_room"
+  put "checkins/split_room" => "checkins#split_room", :as => "split_room"
 
-  match "/admin" => "home#admin"
-
-  match "home/getcheckin/:id" => "home#getcheckin"
-
-  post "home/add_service"
-
-  post "home/add_payment"
-
+  match "/admin" => "home#admin", :as => "admin_root"
 
   get "/checkout/:id" => "checkins#checkout"
 

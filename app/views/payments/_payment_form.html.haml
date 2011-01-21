@@ -1,0 +1,8 @@
+=form_for :payment, :url => add_payment_url, :remote => true, :html => {:id => "payment_form"} do |f|
+  .field
+    =f.label :amount  
+    =f.text_field :amount
+  .field
+    =f.label :Description
+    =f.text_area :description
+    =f.hidden_field :checkin_id

@@ -1,4 +1,6 @@
 class RoomsController < ApplicationController
+  before_filter :authenticate_admin!
+
   # GET /rooms
   # GET /rooms.xml
   def index

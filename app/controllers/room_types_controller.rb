@@ -1,4 +1,5 @@
 class RoomTypesController < ApplicationController
+  before_filter :authenticate_admin!
   # GET /room_types
   # GET /room_types.xml
   def index
