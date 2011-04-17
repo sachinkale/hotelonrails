@@ -55,7 +55,7 @@
   Do you want to split Room -
   %span{:id => "split_room_number"}
   into separate checkin?
-  =form_tag split_room_url,:id => "splitroom_form", :method => "put" do
+  =form_tag split_room_url,:id => :splitroom_form, :method => :put do
     =hidden_field_tag :splitroom_line_item_id
 
 #delete_room_service_dialog{:title => "Delete Room Service", :style => "display:none;"}
@@ -64,6 +64,15 @@
   Item?
   =form_tag delete_service_url, :id => "delete_service_form", :method => :delete, :remote => true do
     =hidden_field_tag "delete_service_item_id"
+
+#shiftroom_dialog{:title => "Shift Room",:style => "display:none"}
+  =form_tag shift_room_url, :id => :shiftroom_form, :method => :put do
+    =hidden_field_tag :shiftroom_room_id_checkin_id
+    =label_tag "Shift to:"
+    =select_tag :shift_room_id, options_from_collection_for_select(@rooms_available,:id,:roomtype)
+    %br
+    =label_tag "Rate"
+    =text_field_tag :rate
 
 :javascript
   $('#service_form').bind("ajax:loading",  function(){
@@ -77,61 +86,49 @@
   });
 
   $(document).ready(function() {
-    /*$('.checkedin').hover(
-      function(){
-        $(this).find('.checkindetails').show();
+
+    $('.shiftroom_link').click(function(){
+      $('#shiftroom_dialog').dialog('open');
+      $('#shiftroom_room_id_checkin_id').val($(this).parents('tr').attr('id'));
+      return false;
+     });
+
+    $('.checkedin').click(function(){
+
+      var id= $(this).parents('tr').attr('id');
+      myarr = id.split('-');
+      $('#service_item_room_id').val(myarr[1]);
+      var data_id= $(".data").attr('id');
+      if(data_id == ''){
+        $('.data').attr('id','data' + id);
       }
-      ,
-      function(){
-        $(this).find('.checkindetails').hide();
-       }
-    );*/
-  $('.checkedin').click(function()
-  {
-  
-  var id= $(this).attr('id');
-  
-  myarr = id.split('-');
-  
-  $('#service_item_room_id').val(myarr[1]);
-  
-  var data_id= $(".data").attr('id');
-  
-  if(data_id == ''){
-    $('.data').attr('id','data' + id);
-  }
-  var panel= $('.panel');
-  var panel_width=$('.panel').css('left');
-  if(data_id == 'data' + id)
-  {
-    panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
-  }
-  else
-  {
-    $('.data').attr('id','data' + id);
-    if(panel_width =='465px')
-    {
+      var panel= $('.panel');
+      var panel_width=$('.panel').css('left');
 
-    }
-    else
-    {
-      panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
-    }
-    $.ajax({
-      beforeSend: function(){$('.data').html('<div style="margin:100px";><img src="/images/smallloading.gif"/>&nbsp;<b>Loading..</b></div>');},
-      url: '/checkins/' + myarr[3]
+      if(data_id == 'data' + id){
+        panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
+      }
+      else{
+        $('.data').attr('id','data' + id);
+        if(panel_width =='465px'){
+
+        }
+        else{
+          panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
+        }
+        $.ajax({
+          beforeSend: function(){$('.data').html('<div style="margin:100px";><img src="/images/smallloading.gif"/>&nbsp;<b>Loading..</b></div>');},
+          url: '/checkins/' + myarr[3]
+        });
+      }
+      return false;
     });
-  }
-  return false;
-  });
 
-  $('.close').click(function() 
-  {
-
-  var panel= $('.panel');
-  panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
-  return false;
-  });
+    $('.close').click(function(){
+      var panel= $('.panel');
+      panel.animate({left: parseInt(panel.css('left'),0) == 0 ? +panel.outerWidth() : 0});
+      return false;
+    });
   });
      
   
@@ -199,6 +196,19 @@
         $('#delete_service_form').submit();
       }, 
       "No": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#shiftroom_dialog').dialog({
+    autoOpen: false,
+    width: 400,
+    buttons: {
+      "Shift": function() { 
+        $(this).dialog("close"); 
+        $('#shiftroom_form').submit();
+      }, 
+      "Cancel": function() { 
         $(this).dialog("close"); 
       } 
     }

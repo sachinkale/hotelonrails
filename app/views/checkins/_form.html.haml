@@ -215,6 +215,7 @@
       if(!extraperson) extraperson = 0;
 
       tax = parseFloat($('#tax' + i ).val());
+      if(!tax) tax = 0;
 
       amt = rate * parseInt(ndays);
 
@@ -227,7 +228,9 @@
       total = total + parseInt(amt);
     }
     $('#totalamt').html(total);
-    pendingamount = total - parseInt($('#advamt').val());
+    advamt = parseInt($('#advamt').val());
+    if(!advamt) advamt = 0;
+    pendingamount = total - advamt;
     $('#pendingamt').html(pendingamount);
 
     $('#totalamt').effect('highlight',2000);

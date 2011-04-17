@@ -4,7 +4,7 @@ class HomeController < ApplicationController
 
   def index
     @rooms = Room.paginate :page => params[:page],:order => "id"
-    @home = true
+    @rooms_available = Room.available
   end
 
   def login

@@ -54,13 +54,17 @@ class CheckinsController < ApplicationController
       if not params[:guest].nil?
         if @checkin.save 
           params[:payment][:checkin_id] = @checkin.id
-          if(params[:payment][:amount] != 0)
+
+          if(params[:payment][:amount] != 0 or params[:payment][:amount] != "")
             @payment = Payment.new(params[:payment])
             @payment.save!
           end
           1.upto(Room.all.length) do |i|
             if not params["room#{i.to_s}"].nil?
               params["room#{i.to_s}"][:checkin_id] = @checkin.id
+              params["room#{i.to_s}"]["tax"] = 0 if params["room#{i.to_s}"]["tax"] == ""
+              params["room#{i.to_s}"]["rate"] = 0 if params["room#{i.to_s}"]["rate"] == ""
+              params["room#{i.to_s}"]["extraperson"] = 0 if params["room#{i.to_s}"]["extraperson"] == ""
               line_item = LineItem.new(params["room#{i.to_s}"])
               line_item.save!
             end
@@ -152,6 +156,34 @@ class CheckinsController < ApplicationController
         redirect_to user_root_url
       }
     end
+  end
+
+  def shift_room
+
+    myarr = params[:shiftroom_room_id_checkin_id].split(/-/)
+    from_room = Room.find(myarr[1])
+    checkin = Checkin.find(myarr[3])
+    to_room = Room.find(params[:shift_room_id])
+    line_item = LineItem.where("checkin_id = ? and room_id = ?",checkin.id,from_room.id).first
+
+    if line_item.actual_days > 1
+      line_item.update_attributes(:todate => Time.now, :freeze => true)
+      new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax})
+    else
+      line_item.update_attribute(:room_id,to_room.id)
+    end
+
+    from_room.update_attribute('status',nil)
+    to_room.update_attribute('status','blocked - checked in')
+
+    respond_to do |format|
+      format.html {
+        flash[:notice] = "Shifted Room successfully!"
+        redirect_to user_root_url
+      }
+    end
+
+
   end
 
 end

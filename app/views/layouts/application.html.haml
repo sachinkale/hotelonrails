@@ -13,7 +13,8 @@
     = javascript_include_tag "rails"
     = csrf_meta_tag
   %body
-    = render :partial => "shared/notice"
+    .notice
+      = render :partial => "shared/notice"
     = render :partial => "shared/header"
     .container_16
       = yield

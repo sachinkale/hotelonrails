@@ -8,6 +8,8 @@ Hsahara::Application.routes.draw do
 
   get "payments/delete_payment"
 
+  put "checkins/shift_room", :as => "shift_room"
+
   devise_for :admins
 
   devise_for :users

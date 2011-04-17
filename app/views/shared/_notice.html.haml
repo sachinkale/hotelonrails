@@ -1,15 +1,15 @@
 .ui-widget
-  -if notice
+  -if flash[:notice]
     .ui-state-highlight.ui-corner-all{:style => "padding: 0 .7em;"}
       %span{:class => "ui-icon ui-icon-info" , :style => "float: left; margin-right: .3em;"}
-      = notice
+      = flash[:notice]
       %a{:href => "#", :class => "close_alert"}
-        %span{:class => "ui-icon ui-icon-close"}
+        %span{:class => "ui-icon ui-icon-close", :style => "float:left;margin-top:3px;"}
         close
-  -if alert        
+  -if flash[:alert]
     .ui-state-error.ui-corner-all{:style => "padding: 0 .7em;"}
       %span{:class => "ui-icon ui-icon-alert" , :style => "float: left; margin-right: .3em;"}
-      = alert
+      = flash[:alert]
       %a{:href => "#", :class => "close_alert"}
         %span{:class => "ui-icon ui-icon-close", :style => "float:left;margin-top:3px;"}
         close

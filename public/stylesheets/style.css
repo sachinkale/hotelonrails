@@ -113,6 +113,9 @@ border-width:1px;
 background:#e6e6e6;
 padding:5px 10px 0px 10px;
 }
+table.roomlist td{
+padding:0px 10px;
+}
 table.total th,table.total td{
   padding:0px 2px;
   vertical-align:middle;
@@ -470,9 +473,8 @@ text-shadow:1px 1px 1px #000;
 .roomlistul li.vacant{
 }
 .guestbox{
-width:180px;
-float:left;
-padding-left:32px;
+width:100%;
+padding:5px 5px 5px 32px;
 height:20px;
 background-image:url(/images/PNG-24/Profile.png);
 background-repeat:no-repeat;
@@ -482,17 +484,22 @@ background-repeat:no-repeat;
   line-height:12px;
   font-weight:bold;
 }
-.checkindetails{
+.roomfunctions{
   width:100%;
   border-top:1px dotted #ccc;
-  margin:2px 5px;
+  margin:0px 5px;
   clear:both;
+  line-height:12px;
 }
-.checkindetails b{
+.roomfunctions b{
 font-weight:normal;
 color:#222;
 }
-.checkindetails li{
+.gb{
+  width:100%;
+  min-height:20px;
+}
+.roomfunctions li{
 float:left;
 margin:0px 2px;
 padding:0px 2px;
@@ -547,9 +554,6 @@ padding-left:54px;
 background-repeat:no-repeat;
 font-weight:bold;
 }
-p.notice,p.alert {
-padding-left:20px;
-}
-p.alert {
-color:red;
+.notice{
+  line-height:20px;
 }

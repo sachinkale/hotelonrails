@@ -2,7 +2,7 @@
   %h1
     =APP_CONFIG['hotel_name']
   %ul
-    %li{:class => "home #{@home?'current':''}"}
+    %li{:class => "home #{current_page?(user_root_url)?'current':''}"}
       =link_to user_root_url do
         %span Home
     %li{:class => "checkin #{current_page?(new_checkin_url)?'current':''}"}

@@ -11,9 +11,14 @@ class LineItem < ActiveRecord::Base
     n = (Time.now - fromdate)/(60 * 60 * 24).floor
     (n <=1 )? 1 : n.round
   end
+
+  def actual_days
+    (Time.now - fromdate)/(60 * 60 * 24).floor
+  end
+
   private
   def block_room
-    room.update_attribute('status','blocked')
+    room.update_attribute('status','blocked - checked in')
   end
 
 end
