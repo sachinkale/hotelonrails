@@ -1,12 +1,15 @@
 class ServiceItemsController < ApplicationController
 
   def add_service
-    @service_item = ServiceItem.new(params[:service_item])
-    if @service_item.save!
-      respond_to do |format|
-        format.html { redirect_to "/checkins"}
-        format.js
-      end
+    if params[:service_item][:amount] == ""
+      @error = "Please add amount!"
+    else
+      @service_item = ServiceItem.new(params[:service_item])
+      @service_item.save!
+    end
+    respond_to do |format|
+      format.html { redirect_to "/checkins"}
+      format.js
     end
   end
 

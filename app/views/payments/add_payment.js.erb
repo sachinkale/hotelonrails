@@ -1,4 +1,8 @@
-html = "<tr><td><%= @payment.created_at.strftime("%Y/%m/%d") %></td><td><%= @payment.amount %></td></tr>"
+<% if @error %>
+  alert("<%= @error %>");
+<%else %>
+  html = "<tr id =<%= 'prow-' + @payment.id.to_s %>><td><a href='#' class='delete_payment'><span class='ui-icon ui-icon-close'></span></a></td>"
+  html += "<td><%= @payment.created_at.strftime("%Y/%m/%d") %></td><td><%= @payment.amount %></td></tr>"
 trows = $('.checkout #payments table tr').length - 1
 $('.checkout #payments table tr:nth-child(' + trows + ')').after(html);
 newtrows = $('.checkout #payments table tr').length - 1
@@ -14,5 +18,11 @@ $('#totaldiv .pending').effect('hightlight',2000);
 <% else %>
   $('#pending_amount_div').html('');
 <%end%>
-$('#loading').remove();
+<%end%>
+$('.delete_payment').click(function(){
+ $('#delete_payment_id').val($(this).parent().parent().attr('id').split('-')[1]);
+ $('#delete_payment_dialog').dialog('open');
+ return false;
+});
 
+$('#loading').remove();

@@ -6,7 +6,7 @@ Hsahara::Application.routes.draw do
 
   post "payments/add_payment", :as => "add_payment"
 
-  get "payments/delete_payment"
+  delete "payments/delete_payment", :as => "delete_payment"
 
   put "checkins/shift_room", :as => "shift_room"
 

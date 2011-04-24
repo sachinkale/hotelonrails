@@ -37,6 +37,11 @@ $('.delete_service').click(function(){
     $('#delete_room_service_dialog').dialog('open');
     return false;
     });
+$('.delete_payment').click(function(){
+    $('#delete_payment_id').val($(this).parent().parent().attr('id').split('-')[1]);
+    $('#delete_payment_dialog').dialog('open');
+    return false;
+    });
 
 
 

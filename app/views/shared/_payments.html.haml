@@ -5,12 +5,17 @@
     =link_to "+ add","#",:class => "add_payment",:id => "paymentcheckinid-#{@checkin.id}"
 %table{:style => "float:right"}
   %tr
+    %th
     %th Date
     %th Amount
   -@checkin.payments.each do |p|
-    %tr
+    %tr{:id => "prow-#{p.id}"}
+      %td 
+        %a{:href => "#", :class => "delete_payment"}
+          %span{:class => "ui-icon ui-icon-close"}
+
       %td= p.created_at.strftime("%Y/%m/%d")
       %td= p.amount
   %tr
-    %th{:scope => "row"} Total Payments
+    %th{:scope => "row",:colspan => 2} Total Payments
     %td.payment= @checkin.payments.sum(:amount)

@@ -1,3 +1,6 @@
+<% if @error %>
+  alert("<%= @error %>");
+<%else%>
 html = "<tr id=<%= 'srow-' + @service_item.id.to_s%>><td><a href='#' class='delete_service'><span class='ui-icon ui-icon-close'></span></a></td>"
 html += "<td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
 trows = $('.checkout #othercharges table tr').length - 1;
@@ -21,7 +24,7 @@ $('.delete_service').click(function(){
     $('#delete_room_service_dialog').dialog('open');
     return false;
     });
-
+<%end%>
 $('#loading').remove();
 
 
