@@ -16,7 +16,7 @@
     .notice
       = render :partial => "shared/notice"
     = render :partial => "shared/header"
-    .container_16
+    %div{:style => "width:100%"}
       = yield
     .clear
     :javascript

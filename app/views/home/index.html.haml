@@ -2,14 +2,13 @@
   .block-content{:style => "overflow:auto;padding-top:5px;background:#aaa;"}
     .block-controls
       =will_paginate @rooms 
-    #panel-frame
+    #panel-frame{:style => "width:49%"}
       .panel
         .head
           %a{:href=> "#",:class => "close"} close
         .data
-    .left.no-margin
-      #tablediv
-        =render :partial => "shared/roomtable"
+    .left.no-margin{:style => "width:51%"}
+      =render :partial => "shared/roomtable"
 
     .right{:style => "width:440px;min-height:500px;"}
       %h3 Welcome to Hotel Management on Rails

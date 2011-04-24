@@ -1,4 +1,4 @@
-%table.roomlist{:cellspacing => 0}
+%table.roomlist{:cellspacing => 0, :style => "width: 100%"}
   - @rooms.each do |room|
     - unless room.status.nil?
       - checkin = room.current_checkin
