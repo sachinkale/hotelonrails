@@ -5,7 +5,7 @@ class ReportMailer < ActionMailer::Base
     logger.info('here')
     @checkins = checkins
     logger.info(@checkins)
-    mail(:to => "sachin@ednexa.com",
+    mail(:to => "sachin@hotelsahara.in",
      :subject => "Daily Report")
   end
 end

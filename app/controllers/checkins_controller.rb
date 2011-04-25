@@ -166,11 +166,25 @@ class CheckinsController < ApplicationController
     to_room = Room.find(params[:shift_room_id])
     line_item = LineItem.where("checkin_id = ? and room_id = ?",checkin.id,from_room.id).first
 
-    if line_item.actual_days > 1
+    if params[:rate] == ""
+      rate = to_room.room_type.base_rate
+    else
+      rate = params[:rate].to_i
+    end
+    
+    if params[:tax] == ""
+      tax = 0
+    else 
+      tax = params[:tax]
+    end
+
+    if line_item.actual_days > 1 
       line_item.update_attributes(:todate => Time.now, :freeze => true)
-      new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax})
+      new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax, :rate => rate})
     else
       line_item.update_attribute(:room_id,to_room.id)
+      line_item.update_attribute(:rate,rate)
+      line_item.update_attribute(:tax,tax.to_f)
     end
 
     from_room.update_attribute('status',nil)
