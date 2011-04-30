@@ -1,0 +1,14 @@
+$('#prow-<%= @payment.id %>').remove();
+$('.checkout #payments table tr:last td:last').html(<%= @payment.checkin.payments.sum(:amount) %>);
+$('#totaldiv .payment').html(<%= @payment.checkin.payments.sum(:amount) %>)
+$('#totaldiv .pending').html(<%= @payment.checkin.pending_balance %>);
+$('#totaldiv .pending').effect('hightlight',2000);
+<% if @payment.checkin.pending_balance > 0 %>
+  $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
+  $('#checkin_status').val('<%= "Pending Amount :" + @payment.checkin.pending_balance.to_s %>');
+<% else %>
+  $('#pending_amount_div').html('');
+<%end%>
+$('#loading').remove();
+
+
