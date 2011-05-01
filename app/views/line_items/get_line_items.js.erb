@@ -13,9 +13,6 @@
       <td><%= @line_item.todate.strftime("%Y/%m/%d")%>   </td>
     </tr>
   <%end%>
-  <tr>
-    <td> <%= link_to "Edit", edit_line_item_path(@line_item.id) %> </td>
-    <td> <%= link_to "Delete",delete_line_item_path(@line_item.id) %></td>
   </tr>
 </table>
 
