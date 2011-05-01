@@ -28,5 +28,18 @@ class Checkin < ActiveRecord::Base
     return false
   end
 
+  def can_split?
+    if line_items.length < 2
+      return false
+    elsif line_items.length == 2 
+      line_items.each do |li|
+        if li.freez
+          return false
+        end
+      end
+    end
+    return true
+  end
+
 end
 

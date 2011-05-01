@@ -11,7 +11,7 @@ class Room < ActiveRecord::Base
 
   def current_checkin
     line_items.each do |li|
-      if li.checkin.status.nil?
+      if li.checkin.status.nil? and not li.freez
         return li.checkin
       end
     end

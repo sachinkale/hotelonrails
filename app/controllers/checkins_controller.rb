@@ -137,22 +137,32 @@ class CheckinsController < ApplicationController
   end
  
   def split_room
-    line_item = LineItem.find(params[:splitroom_line_item_id].sub(/\D+/,''))
-    checkin = Checkin.new
-    checkin.company = line_item.checkin.company if not line_item.checkin.company.nil?
-    checkin.save!
-    checkin.guests << line_item.checkin.guests
-    line_item.checkin.service_items.each do |si|
-      if si.room_id == line_item.room_id
-        si.checkin = checkin
-        si.save!
+    line_item = LineItem.find(params[:splitroom_line_item_id].sub(/\D+/,'').to_i)
+    flag = 0
+    if line_item.freez
+      flag = 1
+      logger.error("#{line_item.send("freez")}")
+    else
+      checkin = Checkin.new
+      checkin.company = line_item.checkin.company if not line_item.checkin.company.nil?
+      checkin.save!
+      checkin.guests << line_item.checkin.guests
+      line_item.checkin.service_items.each do |si|
+        if si.room_id == line_item.room_id
+          si.checkin = checkin
+          si.save!
+        end
       end
+      line_item.checkin = checkin
+      line_item.save!
     end
-    line_item.checkin = checkin
-    line_item.save!
     respond_to do |format|
       format.html {
-        flash[:notice] = "Splitted Room as a new checkin successfully"
+        if flag == 1
+          flash[:notice] = "Cannot Split Room as the room is shifted"
+        else
+          flash[:notice] = "Splitted Room as a new checkin successfully"
+        end
         redirect_to user_root_url
       }
     end
@@ -179,7 +189,7 @@ class CheckinsController < ApplicationController
     end
 
     if line_item.actual_days > 1 
-      line_item.update_attributes(:todate => Time.now, :freeze => true)
+      line_item.update_attributes(:todate => Time.now, :freez => true)
       new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax, :rate => rate})
     else
       line_item.update_attribute(:room_id,to_room.id)
@@ -200,4 +210,5 @@ class CheckinsController < ApplicationController
 
   end
 
+  
 end

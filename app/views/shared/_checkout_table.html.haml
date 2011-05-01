@@ -28,9 +28,9 @@
       %th No of Days
       %th Amount
       - @checkin.line_items.each do |li|
-        %tr
+        %tr{:class => "#{ "freezed" if li.freez}"}
           %td
-            -if @checkin.line_items.length > 1
+            -if @checkin.can_split?
               %a{:href => "#", :id => "split-#{li.id}", :class => "splitlink"}
                 = li.room.number 
                 %span{"class" => "ui-icon ui-icon-extlink", :style => "margin-right:0px;float:right;"}
@@ -41,10 +41,12 @@
           %td= li.rate
           %td= li.extraperson
           %td= li.tax.to_s + "%"
-          %td= (li.rate  + li.extraperson + ((li.rate + li.extraperson) * li.tax/100).to_i ) 
+          %td= li.amount / li.no_of_days
           %td= li.no_of_days.to_s
           %td= li.amount
           -tamount += li.amount
+          %td
+            =link_to "Details","#",:id => "li-details-#{li.id}",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details"
     %tr
       %th{:colspan => 8} Total Rooms Charges
       %td.charges= tamount
@@ -71,4 +73,11 @@
 
 
 
- 
+:javascript
+  $('.li-details').cluetip({
+    sticky: true,
+    mouseOutClose: true,
+    arrows: true,
+    closePosition: 'title',
+    closeText: '<span class ="ui-icon ui-icon-close"/>'});
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110122153835) do
+ActiveRecord::Schema.define(:version => 20110501080911) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20110122153835) do
     t.integer  "checkin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "freeze"
+    t.boolean  "freez"
   end
 
   create_table "payments", :force => true do |t|

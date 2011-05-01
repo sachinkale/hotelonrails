@@ -8,7 +8,11 @@ class LineItem < ActiveRecord::Base
   end
 
   def no_of_days
-    n = (Time.now - fromdate)/(60 * 60 * 24).floor
+    if freez
+      n = (todate - fromdate)/(60 * 60 * 24).floor
+    else
+      n = (Time.now - fromdate)/(60 * 60 * 24).floor
+    end
     (n <=1 )? 1 : n.round
   end
 

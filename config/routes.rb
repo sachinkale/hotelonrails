@@ -1,5 +1,11 @@
 Hsahara::Application.routes.draw do
 
+  delete "line_items/:id" => "line_items#delete_line_item", :as => "delete_line_item"
+
+  put "line_items/:id" => "line_items#edit_line_item", :as => "edit_line_item"
+
+  get "line_items/:id" => "line_items#get_line_items", :as => "line_item"
+
   post "service_items/add_service", :as => "add_service"
 
   delete "service_items/delete_service", :as => "delete_service"
