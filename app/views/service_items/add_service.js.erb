@@ -1,8 +1,11 @@
 <% if @error %>
   alert("<%= @error %>");
 <%else%>
-html = "<tr id=<%= 'srow-' + @service_item.id.to_s%>><td><a href='#' class='delete_service'><span class='ui-icon ui-icon-close'></span></a></td>"
-html += "<td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>"
+html = "<tr id=<%= 'srow-' + @service_item.id.to_s%>><td><a href='#' class='delete_service'><span class='ui-icon ui-icon-close'></span></a></td>";
+html += "<td>";
+html += '<%=link_to "#",:class => "li-details", :rel => "/service_items/#{@service_item.id.to_s}", :title => "Room checkin details" do %><span  class =  "ui-icon ui-icon-info" /><%end%></td>';
+
+html += "<td><%= @service_item.date.strftime("%Y/%m/%d") %></td><td><%= @service_item.service.name %></td><td><%= @service_item.room.number %></td><td><%= @service_item.amount %></td></tr>";
 trows = $('.checkout #othercharges table tr').length - 1;
 $('.checkout #othercharges table tr:nth-child(' + trows + ')').after(html);
 newtrows = $('.checkout #othercharges table tr').length - 1;
@@ -26,5 +29,10 @@ $('.delete_service').click(function(){
     });
 <%end%>
 $('#loading').remove();
-
+$('.li-details').cluetip({
+  sticky: true,
+  mouseOutClose: true,
+  arrows: true,
+  closePosition: 'title',
+  closeText: '<span class ="ui-icon ui-icon-close"/>'});
 

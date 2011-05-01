@@ -6,6 +6,7 @@
 %table{:style => "float:right"}
   %tr
     %th
+    %th
     %th Date
     %th Type
     %th Room
@@ -15,10 +16,15 @@
       %td 
         %a{:href => "#", :class => "delete_service"}
           %span{:class => "ui-icon ui-icon-close"}
+      %td
+        =link_to "#",:class => "li-details", :rel => "/service_items/#{si.id}", :title => "Other Charges details" do
+          %span{:class => "ui-icon ui-icon-info"}
+
       %td= si.created_at.strftime("%Y/%m/%d")
       %td= si.service.name
       %td= si.room.number if not si.room.nil?
       %td= si.amount
+
   %tr
-    %th{:scope => "row", :colspan => 4} Total Other Charges
+    %th{:scope => "row", :colspan => 5} Total Other Charges
     %td.charges= @checkin.service_items.sum(:amount)

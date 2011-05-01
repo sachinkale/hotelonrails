@@ -1,5 +1,14 @@
 class ServiceItemsController < ApplicationController
 
+  def get_service_item
+    @service_item = ServiceItem.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+
+
+  end
+
   def add_service
     if params[:service_item][:amount] == ""
       @error = "Please add amount!"

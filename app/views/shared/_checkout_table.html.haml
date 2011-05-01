@@ -18,6 +18,7 @@
   -tamount = 0
   %table
     %tr
+      %th
       %th Room
       %th Rate
       %th Discount
@@ -29,6 +30,9 @@
       %th Amount
       - @checkin.line_items.each do |li|
         %tr{:class => "#{ "freezed" if li.freez}"}
+          %td
+            =link_to "#",:id => "li-details-#{li.id}",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details" do
+              %span{:class => "ui-icon ui-icon-info"}
           %td
             -if @checkin.can_split?
               %a{:href => "#", :id => "split-#{li.id}", :class => "splitlink"}
@@ -45,10 +49,9 @@
           %td= li.no_of_days.to_s
           %td= li.amount
           -tamount += li.amount
-          %td
-            =link_to "Details","#",:id => "li-details-#{li.id}",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details"
+        
     %tr
-      %th{:colspan => 8} Total Rooms Charges
+      %th{:colspan => 9} Total Rooms Charges
       %td.charges= tamount
 
   %hr   

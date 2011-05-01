@@ -1,5 +1,7 @@
 Hsahara::Application.routes.draw do
 
+  get "service_items/:id" => "service_items#get_service_item"
+
   delete "line_items/:id" => "line_items#delete_line_item", :as => "delete_line_item"
 
   put "line_items/:id" => "line_items#edit_line_item", :as => "edit_line_item"

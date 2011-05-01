@@ -7,6 +7,7 @@
   %tr
     %th
     %th Date
+    %th Description
     %th Amount
   -@checkin.payments.each do |p|
     %tr{:id => "prow-#{p.id}"}
@@ -15,7 +16,8 @@
           %span{:class => "ui-icon ui-icon-close"}
 
       %td= p.created_at.strftime("%Y/%m/%d")
+      %td= p.description
       %td= p.amount
   %tr
-    %th{:scope => "row",:colspan => 2} Total Payments
+    %th{:scope => "row",:colspan => 3} Total Payments
     %td.payment= @checkin.payments.sum(:amount)
