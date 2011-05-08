@@ -6,3 +6,5 @@ hotel_address_line3: 'Maharashtra - 410501'
 hotel_email: 'info@hotelsahara.in'
 hotel_website: 'http://www.hotelsahara.in'
 hotel_phone: '02135 249036, 9850572491'
+hotel_time_zone: "Asia/Kolkata"
+hotel_checkout_hour: 20

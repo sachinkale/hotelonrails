@@ -15,4 +15,11 @@
   <%end%>
   </tr>
 </table>
+<%= link_to "edit", "#", :id => "e_li_#{@line_item.id}" %>
+<div id="edit_form" style="display:none">
+<%=form_for @line_item, :remote => true do%>
+
+
+<%end%>
+</div>
 

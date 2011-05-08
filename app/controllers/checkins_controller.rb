@@ -59,16 +59,22 @@ class CheckinsController < ApplicationController
             @payment = Payment.new(params[:payment])
             @payment.save!
           end
+          checkin_time = ""
           1.upto(Room.all.length) do |i|
             if not params["room#{i.to_s}"].nil?
               params["room#{i.to_s}"][:checkin_id] = @checkin.id
               params["room#{i.to_s}"]["tax"] = 0 if params["room#{i.to_s}"]["tax"] == ""
               params["room#{i.to_s}"]["rate"] = 0 if params["room#{i.to_s}"]["rate"] == ""
               params["room#{i.to_s}"]["extraperson"] = 0 if params["room#{i.to_s}"]["extraperson"] == ""
+              t = Time.now.in_time_zone
+              d = DateTime.parse(params["room#{i.to_s}"][:fromdate] + "T" + t.hour.to_s + ":" + t.min.to_s)
+              params["room#{i.to_s}"][:fromdate] = d.to_s
               line_item = LineItem.new(params["room#{i.to_s}"])
               line_item.save!
+              checkin_time = d.to_s
             end
           end
+          @checkin.update_attribute(:fromdate, checkin_time)
           params[:guest].each do |key,value|
             arr = value.split(/#/)
             guest = Guest.new

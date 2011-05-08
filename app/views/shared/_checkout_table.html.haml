@@ -12,7 +12,10 @@
   %ul.checkin{:style => "float:right"}
     %li 
       %b Checkin Date:
-    %li= @checkin.created_at.strftime("%Y/%m/%d")
+    - if @checkin.fromdate.nil?
+      %li= @checkin.created_at.strftime("%Y/%m/%d")
+    - else
+      %li= @checkin.fromdate.strftime("%Y/%m/%d")
   %hr
   %h4 Room Charges
   -tamount = 0
