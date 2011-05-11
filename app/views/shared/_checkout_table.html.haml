@@ -9,13 +9,13 @@
         %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| g.name})
     -else
       %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| [g.name, "Guest-#{g.id}"]}.unshift([@checkin.company.name, "Company-#{@checkin.company.id}"]))
-  %ul.checkin{:style => "float:right"}
-    %li 
-      %b Checkin Date:
-    - if @checkin.fromdate.nil?
-      %li= @checkin.created_at.strftime("%Y/%m/%d")
-    - else
-      %li= @checkin.fromdate.strftime("%Y/%m/%d")
+  /%ul.checkin{:style => "float:right"}
+  /  %li 
+  /    %b Checkin Date:
+  /  - if @checkin.fromdate.nil?
+  /    %li= @checkin.line_items[0].fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%Y/%m/%d")
+  /  - else
+  /    %li= @checkin.fromdate.strftime("%Y/%m/%d")
   %hr
   %h4 Room Charges
   -tamount = 0
@@ -34,7 +34,7 @@
       - @checkin.line_items.each do |li|
         %tr{:class => "#{ "freezed" if li.freez}"}
           %td
-            =link_to "#",:id => "li-details-#{li.id}",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details" do
+            =link_to "#",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details" do
               %span{:class => "ui-icon ui-icon-info"}
           %td
             -if @checkin.can_split?
@@ -79,11 +79,4 @@
 
 
 
-:javascript
-  $('.li-details').cluetip({
-    sticky: true,
-    mouseOutClose: true,
-    arrows: true,
-    closePosition: 'title',
-    closeText: '<span class ="ui-icon ui-icon-close"/>'});
-
+  

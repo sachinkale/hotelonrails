@@ -1,16 +1,16 @@
 <table>
   <tr>
     <td> Checkin Date:&nbsp; </td>
-    <td><%= @line_item.fromdate.strftime("%Y/%m/%d") %></td>
+    <td><%= @line_item.fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%Y/%m/%d") %></td>
   </tr>
   <tr>
     <td> Checkin Time:&nbsp; </td>
-    <td><%= @line_item.fromdate.strftime("%H:%M") %></td>
+    <td><%= @line_item.fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%H:%M") %></td>
   </tr>
   <% if @line_item.freez %>
     <tr>
       <td> Room Shift/Checkout Date:&nbsp; </td>
-      <td><%= @line_item.todate.strftime("%Y/%m/%d")%>   </td>
+      <td><%= @line_item.todate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%Y/%m/%d")%>   </td>
     </tr>
   <%end%>
   </tr>
