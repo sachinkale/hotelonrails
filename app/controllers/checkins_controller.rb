@@ -194,7 +194,7 @@ class CheckinsController < ApplicationController
       tax = params[:tax]
     end
 
-    if line_item.actual_days > 1 
+    if line_item.no_of_days > 1 
       line_item.update_attributes(:todate => Time.now, :freez => true)
       new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax, :rate => rate})
     else
