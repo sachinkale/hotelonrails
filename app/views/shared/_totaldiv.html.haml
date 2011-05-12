@@ -1,0 +1,11 @@
+%button checkout
+%table{:style => "float:right"}
+  %tr
+    %th{:scope => "row"} Total Charges
+    %td.charges= @tamount + @checkin.service_items.sum(:amount)
+  %tr
+    %th{:scope => "row"} Total Payments
+    %td.payment= @checkin.payments.sum(:amount)
+  %tr
+    %th{:scope => "row"} Total Pending
+    %td.pending= @tamount + @checkin.service_items.sum(:amount) - @checkin.payments.sum(:amount)

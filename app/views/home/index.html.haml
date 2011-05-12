@@ -82,7 +82,8 @@
     %br
     =label_tag "tax"
     =text_field_tag :tax
-
+#edit_line_item_dialog{:title => "Edit Checkin",:style => "display:none"}
+  #line_item_form
 
 :javascript
   $('#service_form').bind("ajax:loading",  function(){
@@ -93,6 +94,9 @@
   });
   $('#delete_service_form').bind("ajax:loading",  function(){
     $('.add_service').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
+  });
+  $('#edit_line_item_form').bind("ajax:loading",  function(){
+    $('#line_items').html('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
   });
 
   $(document).ready(function() {
@@ -233,6 +237,19 @@
         $('#delete_payment_form').submit();
       }, 
       "No": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#edit_line_item_dialog').dialog({
+    autoOpen: false,
+    width: 450,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#edit_line_item_form').submit();
+      }, 
+      "Cancel": function() { 
         $(this).dialog("close"); 
       } 
     }

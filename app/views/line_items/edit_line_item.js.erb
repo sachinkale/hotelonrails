@@ -1,0 +1,31 @@
+<% if @error %>
+  alert("<%= @error %>");
+<%else%>
+  <% @tamount = 0 %>
+  $('#line_items').html("<%= escape_javascript(render :partial => 'shared/line_items')%>");
+  <% if @checkin.pending_balance > 0 %>
+    $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
+  <% @checkin.status = "Pending Amount :" + @checkin.pending_balance.to_s %>
+  <%else %>
+    $('#pending_amount_div').html('');
+  <%end%>
+
+  $('#totaldiv').html("<%= escape_javascript(render :partial => 'shared/totaldiv')%>");
+  $('#totaldiv button').click(function(){
+      $('#checkout_dialog').dialog('open');
+      return false;
+   });
+
+  $('.li-details').cluetip({
+      sticky: true,
+      mouseOutClose: true,
+      arrows: true,
+      closePosition: 'title',
+      closeText: '<span class ="ui-icon ui-icon-close"/>'});
+
+  $('#line_items table').effect('highlight',2000);
+<%end%>
+
+
+
+

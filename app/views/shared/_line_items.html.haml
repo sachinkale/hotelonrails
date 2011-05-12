@@ -1,0 +1,39 @@
+%hr
+%h4 Room Charges
+%table
+  %tr
+    %th
+    %th Room
+    %th Rate
+    %th Discount
+    %th Applied Rate
+    %th Extra Person
+    %th Tax
+    %th Total Per Day
+    %th No of Days
+    %th Amount
+    - @checkin.line_items.each do |li|
+      %tr{:class => "#{ "freezed" if li.freez}"}
+        %td
+          =link_to "#",:class => "li-details", :rel => "/line_items/#{li.id}", :title => "Room checkin details" do
+            %span{:class => "ui-icon ui-icon-info"}
+        %td
+          -if @checkin.can_split?
+            %a{:href => "#", :id => "split-#{li.id}", :class => "splitlink"}
+              = li.room.number 
+              %span{"class" => "ui-icon ui-icon-extlink", :style => "margin-right:0px;float:right;"}
+          -else
+            =li.room.number
+        %td= li.room.room_type.baserate
+        %td= li.discount.to_s + "%"
+        %td= li.rate
+        %td= li.extraperson
+        %td= li.tax.to_s + "%"
+        %td= li.amount_per_day.to_s
+        %td= li.no_of_days.to_s
+        %td= li.amount
+        -@tamount += li.amount
+      
+  %tr
+    %th{:colspan => 9} Total Rooms Charges
+    %td.charges= @tamount

@@ -15,11 +15,12 @@
   <%end%>
   </tr>
 </table>
-<%= link_to "edit", "#", :id => "e_li_#{@line_item.id}" %>
-<div id="edit_form" style="display:none">
-<%=form_for @line_item, :remote => true do%>
+<%= link_to "edit", "#", :class => "show_line_item_form" %>
+<script type="text/javascript">
+$('#line_item_form').html('<%= escape_javascript(render :partial => "form") %>');
+$('.show_line_item_form').click(function(){
+$('#edit_line_item_dialog').dialog('open');
+return false;
+});
 
-
-<%end%>
-</div>
-
+</script>

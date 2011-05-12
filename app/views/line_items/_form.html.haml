@@ -1,0 +1,13 @@
+= form_for @line_item, :remote => true, :html => {:id => :edit_line_item_form } do |f|
+  = label_tag "In Date:"
+  - logger.info(@line_item.from.hour)
+  = datetime_select(:line_item1, :fromdate, :default =>  @line_item.from)
+  %br
+  = label_tag "Rate After Discount"
+  = f.text_field :rate
+  %br
+  = label_tag "extraperson"
+  = f.text_field :extraperson
+  %br
+  = label_tag "tax"
+  = f.text_field :tax
