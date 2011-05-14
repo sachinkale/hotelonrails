@@ -1,0 +1,9 @@
+<table>
+  <tr>
+    <td>Bill Number:&nbsp;</td><td><%= @service_item.billnumber %></td>
+  <tr>
+    <td>Description:&nbsp;</td><td><%= @service_item.description %></td>
+  <tr>
+    <td>Time Stamp:&nbsp;</td><td><%= @service_item.date.in_time_zone(APP_CONFIG['hotel_time_zone']) %></td>
+  </tr>
+</table>
