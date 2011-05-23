@@ -4,7 +4,9 @@ class CheckinsController < ApplicationController
   # GET /checkins
   # GET /checkins.xml
   def index
-    @checkins = Checkin.where("status is NULL")
+    #@checkins = Checkin.where("status is NULL")
+
+    @checkins = Checkin.paginate :page => params[:page],:order => "id desc"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -103,7 +105,8 @@ class CheckinsController < ApplicationController
   # PUT /checkins/1.xml
   def update
     @checkin = Checkin.find(params[:id])
-
+    params[:checkin][:description] =  params[:select_description] + " : " + params[:checkin][:description] 
+    logger.info(params[:checkin])
     respond_to do |format|
       if @checkin.update_attributes(params[:checkin])
         if not @checkin.status.nil?

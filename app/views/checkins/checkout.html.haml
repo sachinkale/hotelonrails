@@ -112,12 +112,13 @@
           %b Total Charges
         %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b= @checkin.service_items.sum(:amount) + tamount
-      -if (@checkin.total_charges - @checkin.payments.sum(:amount) > 0)
-        %tr
-          %td.right
-            %b Discount
-          %td.right{:style => "border-left:1px solid #000;border-top:none;"}
-            %b=@checkin.total_charges - @checkin.payments.sum(:amount) 
+      -if (@checkin.pending_balance > 0) 
+        - if @checkin.description == "Discount : "
+          %tr
+            %td.right
+              %b Discount
+            %td.right{:style => "border-left:1px solid #000;border-top:none;"}
+              %b=@checkin.total_charges - @checkin.payments.sum(:amount) 
 
       %tr
         %td.checkout{:style => "border-bottom:none"}
@@ -138,14 +139,42 @@
         %td{:style => "border-bottom:none"}
       %tr
         %td.right{:style => "border:none;"}
-          %b Total Amount
+          %b Total Payment
         %td.right{:style => "border-left:1px solid #000;border-top:none;"}
           %b= @checkin.payments.sum(:amount).to_f
 
-      %tr
-        %td{:colspan => 2}
-          %b Total Amount in Words:
-          ="Rs. " +  (@checkin.payments.sum(:amount)).to_i.to_english.capitalize + " only."
+      -if (@checkin.pending_balance > 0) 
+        - if @checkin.description == "Bill to Company : "
+          %tr
+            %td.right
+              %b 
+                Payment to be paid by : 
+                =@checkin.company.name
+            %td.right{:style => "border-left:1px solid #000;border-top:none;"}
+              %b=@checkin.pending_balance
+          %tr
+            %td{:colspan => 2}
+              %b Total Amount in Words:
+              ="Rs. " +  (@checkin.pending_balance).to_i.to_english.capitalize + " only."
+        - elsif @checkin.description == "Discount : "
+          %tr
+            %td.right
+              %b Total Pending
+            %td.right{:style => "border-left:1px solid #000;border-top:none;"}
+              %b 0
+
+            
+        - else
+          %tr
+            %td.right
+              %b Total Pending
+            %td.right{:style => "border-left:1px solid #000;border-top:none;"}
+              %b=@checkin.pending_balance
+          %tr
+            %td{:colspan => 2}
+              %b Total Amount in Words:
+              ="Rs. " +  (@checkin.pending_balance).to_i.to_english.capitalize + " only."
+
 
 
     %table.signature

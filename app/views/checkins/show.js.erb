@@ -9,13 +9,15 @@ $('.add_payment').click(function(){
 $('#payment_dialog').dialog('open');
 return false;
 });
+
+$('#checkout_form_div').html("<%= escape_javascript(render :partial => '/checkins/edit_checkin_form')%>")
 <% if @checkin.pending_balance > 0 %>
   $('#pending_amount_div').html('<span style="color:red;">Amount is pending, Please add payments before proceeding!</span><br>');
   <% @checkin.status = "Pending Amount :" + @checkin.pending_balance.to_s %>
+  $('#pending_reason_div').show();
 <%else %>
   $('#pending_amount_div').html('');
 <%end%>
-$('#checkout_form_div').html('<%= escape_javascript(render :partial => "/checkins/edit_checkin_form")%>')
 $('#totaldiv button').click(function(){
     $('#checkout_dialog').dialog('open');
     return false;

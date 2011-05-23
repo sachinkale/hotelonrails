@@ -2,8 +2,8 @@ body {
     background: white;
     font-family: "Arial","Times New Roman";
     font-size:12pt;
-    width:21cm; height:25cm;
-    color:#666;
+    width:21cm; min-height:25cm;
+    color:#000;
     border:1px solid #000;
 }
 h1{

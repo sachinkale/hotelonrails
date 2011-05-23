@@ -9,13 +9,6 @@
         %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| g.name})
     -else
       %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| [g.name, "Guest-#{g.id}"]}.unshift([@checkin.company.name, "Company-#{@checkin.company.id}"]))
-  /%ul.checkin{:style => "float:right"}
-  /  %li 
-  /    %b Checkin Date:
-  /  - if @checkin.fromdate.nil?
-  /    %li= @checkin.line_items[0].fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%Y/%m/%d")
-  /  - else
-  /    %li= @checkin.fromdate.strftime("%Y/%m/%d")
   #line_items
     -@tamount = 0
     =render :partial => "shared/line_items"
