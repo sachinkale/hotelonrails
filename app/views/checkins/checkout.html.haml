@@ -34,6 +34,10 @@
       %br
       Address:
       %b=@checkin.bill_to_owner.address 
+      -if @checkin.bill_to_owner_type == "Company"
+        %br
+        Guest Name :
+        %b=@checkin.guests[0].name
     .grid_6{:style => "float:right;width:30%;"}
       Invoice Date: 
       %b=Date.today
@@ -55,10 +59,14 @@
               %th Rate
               -if @checkin.discount?
                 %th Discount
-                %th Applied Rate
-              %th Extra Person
+                %th Rate after Discount
+
+              - if @checkin.extraperson?
+                %th Extra Person
               %th Tax
               %th Total Per Day
+              %th Checkin Date
+              %th Checkout Date
               %th No of Days
               %th Amount
               - @checkin.line_items.each do |li|
@@ -68,14 +76,20 @@
                   - if @checkin.discount?
                     %td= "#{(100 - (li.rate.to_f/li.room.room_type.baserate.to_f) * 100).round(2)}%"
                     %td= li.rate
-                  %td= li.extraperson
+                  - if @checkin.extraperson?
+                    %td= li.extraperson
                   %td= li.tax.to_s + "%"
                   %td= (li.rate  + li.extraperson + ((li.rate + li.extraperson) * li.tax/100).to_i ) 
+                  %td= li.fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
+                  %td= li.todate.nil? ? checkin.updated_at.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R") : li.todate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
                   %td= li.no_of_days.to_s
                   %td= li.amount
                   -tamount += li.amount
             %tr
-              %th{:colspan => "#{ @checkin.discount? ? 8 : 6}"} Total 
+              - colspan = 7
+              - colspan = colspan + 2 if @checkin.discount?
+              - colspan = colspan + 1 if @checkin.extraperson?
+              %th{:colspan => "#{colspan}"} Total 
               %td.charges= tamount
         %td{:style => "border-bottom:none"}
       %tr
@@ -94,7 +108,7 @@
               %th Amount
             - @checkin.service_items.each do |si|
               %tr
-                %td= si.date.strftime("%Y/%m/%d")
+                %td= si.date.strftime("%d/%m/%y")
                 %td= si.service.name
                 %td= si.room.number if not si.room.nil?
                 %td= si.amount
@@ -130,7 +144,7 @@
               %th Amount
             -@checkin.payments.each do |p|
               %tr
-                %td= p.created_at.strftime("%Y/%m/%d")
+                %td= p.created_at.strftime("%d/%m/%y")
                 %td= p.description
                 %td= p.amount
             %tr
@@ -149,7 +163,7 @@
             %td.right
               %b 
                 Payment to be paid by : 
-                =@checkin.company.name
+                = @checkin.company.name == "None" ? @checkin.guests[0].name : @checkin.company.name
             %td.right{:style => "border-left:1px solid #000;border-top:none;"}
               %b=@checkin.pending_balance
           %tr
