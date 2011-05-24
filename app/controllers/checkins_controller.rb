@@ -6,7 +6,7 @@ class CheckinsController < ApplicationController
   def index
     #@checkins = Checkin.where("status is NULL")
 
-    @checkins = Checkin.paginate :page => params[:page],:order => "id desc"
+    @checkins = Checkin.paginate :page => params[:page],:order => "updated_at desc"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -106,15 +106,9 @@ class CheckinsController < ApplicationController
   def update
     @checkin = Checkin.find(params[:id])
     params[:checkin][:description] =  params[:select_description] + " : " + params[:checkin][:description] 
-    logger.info(params[:checkin])
     respond_to do |format|
       if @checkin.update_attributes(params[:checkin])
-        if not @checkin.status.nil?
-          @checkin.line_items.each do |li|
-            li.room.update_attribute('status',nil)
-            li.room.save!
-          end
-        end
+        @checkin.checkout if not @checkin.status.nil?
         format.html { redirect_to(user_root_url, :notice => 'Checkin was successfully updated.') }
         format.js { }
         format.xml  { head :ok }
@@ -150,7 +144,6 @@ class CheckinsController < ApplicationController
     flag = 0
     if line_item.freez
       flag = 1
-      logger.error("#{line_item.send("freez")}")
     else
       checkin = Checkin.new
       checkin.company = line_item.checkin.company if not line_item.checkin.company.nil?
