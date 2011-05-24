@@ -1,7 +1,7 @@
 class LineItem < ActiveRecord::Base
   belongs_to :room
   belongs_to :checkin
-  before_save :block_room
+  after_create :block_room
   before_destroy :unblock_room
 
   validates_numericality_of :rate
@@ -19,7 +19,11 @@ class LineItem < ActiveRecord::Base
   def no_of_days
     n = 0
 
-    today = Time.now.in_time_zone(APP_CONFIG['hotel_time_zone'])
+    if checkin.status.nil? 
+      today = freez ? todate.in_time_zone(APP_CONFIG['hotel_time_zone']) : Time.now.in_time_zone(APP_CONFIG['hotel_time_zone'])
+    else
+      today = (todate.nil?) ? checkin.updated_at.in_time_zone(APP_CONFIG['hotel_time_zone']) :  todate.in_time_zone(APP_CONFIG['hotel_time_zone']) 
+    end
 
     n = n + 1 if from.hour < APP_CONFIG['hotel_checkout_hour'] 
 
@@ -35,8 +39,8 @@ class LineItem < ActiveRecord::Base
   def discount
     (100 - (rate.to_f/room.room_type.baserate.to_f) * 100).round(2)
   end
-
-  private
+  
+ private
   def block_room
     room.update_attribute('status','blocked - checked in')
   end
