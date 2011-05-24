@@ -37,7 +37,7 @@ td,th{padding:5px;border:1px solid #000;}
 
 .checkout table {border: 1px solid #000;margin:5px;}
 .checkout table th{border:1px solid #000;line-height:10px;padding:5px;color:#444;font-weight:normal;line-height:12px;font-size:10pt;}
-.checkout table td{border:1px solid #000;text-align:center;vertical-align:middle;padding:5px;line-height:12px;color:#000;}
+.checkout table td{border:1px solid #000;text-align:center;vertical-align:middle;padding:5px;line-height:12px;color:#000;line-height:16px;}
 table.signature{width:100%;}
 table.signature td {height:100px;text-align:center;vertical-align:bottom;}
 .printmsg{ height:20px;background:#888;opacity:0.9;position:fixed;top:1;clear:both;width:100%; }
