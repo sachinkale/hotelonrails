@@ -29,6 +29,15 @@ class Checkin < ActiveRecord::Base
     return false
   end
 
+  def extraperson?
+    line_items.each do |li|
+      if not li.extraperson.nil? and li.extraperson != 0
+        return true
+      end
+    end
+    return false
+  end
+
   def can_split?
     if line_items.length < 2
       return false
@@ -40,6 +49,15 @@ class Checkin < ActiveRecord::Base
       end
     end
     return true
+  end
+
+
+  def checkout
+    line_items.each do |li|
+      li.update_attribute(:todate, Time.now.in_time_zone)
+      li.room.update_attribute('status',nil)
+    end
+    update_attribute(:status, "checked out")
   end
 
 end
