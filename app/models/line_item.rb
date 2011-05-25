@@ -22,7 +22,7 @@ class LineItem < ActiveRecord::Base
     if checkin.status.nil? 
       today = freez ? todate.in_time_zone(APP_CONFIG['hotel_time_zone']) : Time.now.in_time_zone(APP_CONFIG['hotel_time_zone'])
     else
-      today = (todate.nil?) ? checkin.updated_at.in_time_zone(APP_CONFIG['hotel_time_zone']) :  todate.in_time_zone(APP_CONFIG['hotel_time_zone']) 
+      today = checkin.updated_at.in_time_zone(APP_CONFIG['hotel_time_zone']) 
     end
 
     n = n + 1 if from.hour < APP_CONFIG['hotel_checkout_hour'] 
