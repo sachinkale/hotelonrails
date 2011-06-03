@@ -30,11 +30,11 @@
   #content{:style => "clear:both:width:100%"}
     .grid_12.alpha{:style => "float:left;width:40%"}
       To:
-      %b=@checkin.bill_to_owner.name
+      %b= @checkin.status.nil? ? @checkin.guests[0].name : @checkin.bill_to_owner.name
       %br
       Address:
-      %b=@checkin.bill_to_owner.address 
-      -if @checkin.bill_to_owner_type == "Company"
+      %b= @checkin.status.nil? ? "" : @checkin.bill_to_owner.address 
+      -if @checkin.bill_to_owner_type == "Company" and not @checkin.status.nil?
         %br
         Guest Name :
         %b=@checkin.guests[0].name

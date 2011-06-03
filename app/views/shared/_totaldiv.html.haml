@@ -1,4 +1,6 @@
 %button checkout
+=link_to_function "View Print", "window.open('/checkout/#{@checkin.id.to_s}','Check Out', 'height=400,width=400');"
+
 %table{:style => "float:right"}
   %tr
     %th{:scope => "row"} Total Charges
