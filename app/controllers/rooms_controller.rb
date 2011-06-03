@@ -82,4 +82,38 @@ class RoomsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def block_room
+    if params[:block_room_id] != ""
+      room = Room.find(params[:block_room_id])
+      room.update_attribute('status',"blocked-#{params[:reason]}")
+      notice = "Room Blocked Successfully"
+    else
+      notice = "Please select Room to block!"
+    end
+    respond_to do |format|
+      format.html {
+        redirect_to(root_url, :notice => notice)
+      }
+    end
+
+  end
+  def unblock_room
+    if params[:unblock_room_id] != ""
+      room = Room.find(params[:unblock_room_id])
+      room.update_attribute('status',nil)
+      notice = "Room UnBlocked Successfully"
+    else
+      notice = "Please select Room to unblock!"
+    end
+    respond_to do |format|
+      format.html {
+        redirect_to(root_url, :notice => notice)
+      }
+    end
+
+  end
+
+
+
 end

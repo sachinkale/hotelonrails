@@ -86,6 +86,22 @@
 #edit_line_item_dialog{:title => "Edit Checkin",:style => "display:none"}
   #line_item_form
 
+#block_room_dialog{:title => "Block Room?",:style => "display:none"}
+  Do you want to block Room -
+  %span{:id => "block_room_number"}
+  &nbsp;?
+  =form_tag block_room_url,:id => :block_room_form, :method => :put do
+    =label_tag "Specify Reason"
+    =select_tag "reason",options_for_select(["Maintenance","Occupied by Staff"])
+    =hidden_field_tag :block_room_id
+#unblock_room_dialog{:title => "Unblock Room?",:style => "display:none"}
+  Do you want to unblock Room -
+  %span{:id => "unblock_room_number"}
+  &nbsp;?
+  =form_tag unblock_room_url,:id => :unblock_room_form, :method => :put do
+    =hidden_field_tag :unblock_room_id
+
+
 :javascript
   $('#service_form').bind("ajax:loading",  function(){
     $('.add_service').after('<div id="loading"><img style = "float:right;margin:3px;" src="/images/smallloading.gif"/></div>')
@@ -105,6 +121,20 @@
     $('.shiftroom_link').click(function(){
       $('#shiftroom_dialog').dialog('open');
       $('#shiftroom_room_id_checkin_id').val($(this).parents('tr').attr('id'));
+      return false;
+     });
+
+    $('.blockroom_link').click(function(){
+      $('#block_room_dialog').dialog('open');
+      $('#block_room_id').val($(this).attr('id').split('-')[1]);
+      $('#block_room_number').html($(this).parents('.block').find('th[scope=row]').text());
+      return false;
+     });
+
+    $('.unblockroom_link').click(function(){
+      $('#unblock_room_dialog').dialog('open');
+      $('#unblock_room_id').val($(this).attr('id').split('-')[1]);
+      $('#unblock_room_number').html($(this).parents('.block').find('th[scope=row]').text());
       return false;
      });
 
@@ -255,4 +285,31 @@
       } 
     }
   });
+  $('#block_room_dialog').dialog({
+    autoOpen: false,
+    width: 450,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#block_room_form').submit();
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+  $('#unblock_room_dialog').dialog({
+    autoOpen: false,
+    width: 450,
+    buttons: {
+      "Save": function() { 
+        $(this).dialog("close"); 
+        $('#unblock_room_form').submit();
+      }, 
+      "Cancel": function() { 
+        $(this).dialog("close"); 
+      } 
+    }
+  });
+
 

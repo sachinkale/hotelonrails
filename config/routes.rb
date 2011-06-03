@@ -1,5 +1,9 @@
 Hsahara::Application.routes.draw do
 
+  put "rooms/unblock_room", :as => :unblock_room
+
+  put "rooms/block_room", :as => :block_room
+
   get "service_items/:id" => "service_items#get_service_item"
 
   delete "line_items/:id" => "line_items#delete_line_item", :as => "delete_line_item"

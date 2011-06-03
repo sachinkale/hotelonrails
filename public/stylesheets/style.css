@@ -559,3 +559,17 @@ font-weight:bold;
 .freezed{
 background-color:#99ccff;
 }
+ul.general li{
+float: left;
+padding:0;
+margin:0;
+}
+ul.general img{
+padding:0;
+margin:0;
+}
+ul.general li.text{
+color:#555;
+margin:10px 20px;
+}
+  

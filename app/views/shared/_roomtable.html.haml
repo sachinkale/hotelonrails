@@ -1,7 +1,9 @@
 %table.roomlist{:cellspacing => 0, :style => "width: 100%"}
   - @rooms.each do |room|
     - unless room.status.nil?
-      - checkin = room.current_checkin
+      - if room.status.match(/check/)
+        - checkin = room.current_checkin
+        
     %tr.block{:id => "#{checkin.nil? ? '' : 'room-' + room.id.to_s  + '-checkin-' + checkin.id.to_s}"}
       %th{:scope => 'row'}= room.number
       %td
@@ -12,9 +14,24 @@
           %ul.roomfunctions
             %li
               =link_to "Shift Room","#",:class => "shiftroom_link"
+        -elsif not room.status.nil?
+          %ul.general
+            - if room.status.match(/maintenance/i)
+              %li
+                =image_tag "maintenance.png"
+              %li.text
+                %b Under Maintenance
+            - elsif room.status.match(/occupied/i)
+              %li
+                =image_tag "staff.png"
+              %li.text
+                %b Occupied by Staff
+          %ul.roomfunctions  
+            %li
+              =link_to "Unblock Room", "#", :class => "unblockroom_link", :id => "unblock-#{room.id}"
         -else
           .gb
           %ul.roomfunctions
             %li
-              =link_to "Block Room","#"
+              =link_to "Block Room","#",:class => :blockroom_link, :id => "block-#{room.id}"
 
