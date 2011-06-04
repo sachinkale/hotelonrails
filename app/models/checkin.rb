@@ -51,6 +51,25 @@ class Checkin < ActiveRecord::Base
     return true
   end
 
+  def revenue_for_day(mydate)
+    total = 0
+    line_items.each do |li|
+      if status.nil? and mydate > li.fromdate.to_date
+        total += li.amount_per_day
+      end
+    end
+
+
+    s = ServiceItem.arel_table
+    st_time = mydate.to_time.beginning_of_day
+    en_time = mydate.to_time.end_of_day
+
+
+    total += service_items.select("sum(amount) as amt").where(s[:date].gteq(st_time)).where(s[:date].lteq(en_time))[0].amt.to_i
+
+    return total
+  end
+
 
   def checkout
     line_items.each do |li|
@@ -59,6 +78,11 @@ class Checkin < ActiveRecord::Base
     end
     update_attribute(:status, "checked out")
   end
+
+  def update_fromdate
+    update_attribute(:fromdate,line_items.order("fromdate asc")[0].fromdate)
+  end
+
 
 end
 

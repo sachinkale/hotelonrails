@@ -25,7 +25,7 @@ class LineItemsController < ApplicationController
       @line_item.update_attributes(params[:line_item])
     end
     @checkin = @line_item.checkin
-    
+    @checkin.update_fromdate
   end
 
   def delete_line_item

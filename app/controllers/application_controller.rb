@@ -53,4 +53,10 @@ class ApplicationController < ActionController::Base
     session[:return_to] = nil
   end
 
+  def format_date_remove_zeroes(date_to_format)  
+    date_num= date_to_format.strftime('%d').to_i
+    month_num = date_to_format.strftime('%m').to_i
+    formatted_date=date_num.to_s+"/"+month_num.to_s         
+  end
+
 end

@@ -10,12 +10,13 @@ class Room < ActiveRecord::Base
   end
 
   def current_checkin
-    line_items.each do |li|
-      if li.checkin.status.nil? and not li.freez
-        return li.checkin
+    Checkin.where("status is NULL").each do |c|
+      c.line_items.each do |li|
+        return c if not li.freez and li.room_id == id
       end
     end
     return nil
+    #Checkin.where("status is NOT NULL").line_items.each 
   end
 
 end

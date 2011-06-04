@@ -76,19 +76,6 @@ class CheckinsController < ApplicationController
                 line_item = LineItem.new(params["room#{i.to_s}"])
                 line_item.save!
                 checkin_time = d.to_s
-                @checkin.update_attribute(:fromdate, checkin_time)
-                params[:guest].each do |key,value|
-                  arr = value.split(/#/)
-                  guest = Guest.new
-                  if arr[0] != "" || arr[1] != ""
-                    guest.FirstName = arr[0]
-                    guest.LastName = arr[1]
-                    guest.save!
-                    @checkin.guests << guest
-                  end
-                end
-                format.html { redirect_to(user_root_url, :notice => 'Checkin was successfully created.') }
-                format.xml  { render :xml => @checkin, :status => :created, :location => @checkin }
               else
                 @checkin.destroy
                 format.html { redirect_to(new_checkin_path, :notice => "Room #{room.number} is already checked in") }
@@ -96,6 +83,20 @@ class CheckinsController < ApplicationController
               end
             end
           end
+          @checkin.update_fromdate
+          params[:guest].each do |key,value|
+            arr = value.split(/#/)
+            guest = Guest.new
+            if arr[0] != "" || arr[1] != ""
+              guest.FirstName = arr[0]
+              guest.LastName = arr[1]
+              guest.save!
+              @checkin.guests << guest
+            end
+          end
+          format.html { redirect_to(user_root_url, :notice => 'Checkin was successfully created.') }
+          format.xml  { render :xml => @checkin, :status => :created, :location => @checkin }
+
 
         else
           format.html { render :action => "new" }
@@ -165,6 +166,7 @@ class CheckinsController < ApplicationController
       end
       line_item.checkin = checkin
       line_item.save!
+      checkin.update_fromdate
     end
     respond_to do |format|
       format.html {

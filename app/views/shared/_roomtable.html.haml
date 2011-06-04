@@ -2,7 +2,7 @@
   - @rooms.each do |room|
     - unless room.status.nil?
       - if room.status.match(/check/)
-        - checkin = room.current_checkin
+        - checkin = @room_checkin[room]
         
     %tr.block{:id => "#{checkin.nil? ? '' : 'room-' + room.id.to_s  + '-checkin-' + checkin.id.to_s}"}
       %th{:scope => 'row'}= room.number

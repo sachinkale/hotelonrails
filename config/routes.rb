@@ -1,5 +1,9 @@
 Hsahara::Application.routes.draw do
 
+  get "home/pie_chart_data", :as => :pie_chart_data
+
+  get "home/bar_chart_data", :as => :bar_chart_data
+
   put "rooms/unblock_room", :as => :unblock_room
 
   put "rooms/block_room", :as => :block_room
