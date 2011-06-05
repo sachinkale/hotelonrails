@@ -83,6 +83,7 @@ class Checkin < ActiveRecord::Base
       li.room.update_attribute('status',nil)
     end
     update_attribute(:status, "checked out")
+    update_attribute(:todate, Time.now.in_time_zone)
   end
 
   def update_fromdate
