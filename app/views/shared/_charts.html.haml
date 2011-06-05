@@ -1,14 +1,12 @@
-%ul.general
-  %li
-    #piediv  
-  %li
-    #bardiv
+%center
+  #piediv  
+  #bardiv
 :javascript
-  var pie_chart = new FusionCharts("/charts/FCF_Pie3D.swf", "Pie", "300", "250");
+  var pie_chart = new FusionCharts("/charts/FCF_Pie3D.swf", "Pie", "350", "250");
   pie_chart.setDataURL("#{pie_chart_data_url}");
   pie_chart.render("piediv");
 
-  var bar_chart = new FusionCharts("/charts/FCF_Bar2D.swf", "Bar", "300","250");
+  var bar_chart = new FusionCharts("/charts/FCF_Column3D.swf", "Bar", "350","250");
   bar_chart.setDataURL("#{bar_chart_data_url}");
   bar_chart.render("bardiv");
 

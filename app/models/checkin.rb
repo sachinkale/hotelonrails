@@ -54,8 +54,14 @@ class Checkin < ActiveRecord::Base
   def revenue_for_day(mydate)
     total = 0
     line_items.each do |li|
-      if status.nil? and mydate > li.fromdate.to_date
-        total += li.amount_per_day
+      if status.nil? 
+        if mydate > li.fromdate.to_date and not li.freez
+          total += li.amount_per_day
+        elsif li.freez and li.todate.to_date > mydate
+          total += li.amount_per_day      
+        end
+      else
+        total += li.amount_per_day if li.todate.to_date > mydate and li.fromdate.to_date < mydate
       end
     end
 

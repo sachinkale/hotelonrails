@@ -48,10 +48,10 @@ class HomeController < ApplicationController
     @date_revenue = Hash.new
     t = Date.today
     while t > Time.now.beginning_of_week().to_date
-      @date_revenue[t] = 0
+      @date_revenue[t.to_time.strftime("%d/%m")] = 0
       @checkins.each do |c|
         amtd = c.revenue_for_day(t)
-        @date_revenue[t] += amtd
+        @date_revenue[t.to_time.strftime("%d/%m")] += amtd
       end
       t = t - 1.day
     end
