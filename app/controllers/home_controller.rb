@@ -45,13 +45,19 @@ class HomeController < ApplicationController
   def bar_chart_data
     ct = Checkin.arel_table
     @checkins = Checkin.where(ct[:fromdate].gteq(Time.now.beginning_of_week().to_date - 1.day).or(ct[:status].eq(nil)))
-    @date_revenue = Hash.new
+    #@date_revenue = Hash.new
+    @date_revenue = ActiveSupport::OrderedHash.new
     t = Date.today
-    while t > Time.now.beginning_of_week().to_date
-      @date_revenue[t.to_time.strftime("%d/%m")] = 0
+    while t >= Time.now.beginning_of_week().to_date
+      @date_revenue[t.to_time.strftime("%d/%m")] = Array.new
+      @date_revenue[t.to_time.strftime("%d/%m")][0] = 0
+      @date_revenue[t.to_time.strftime("%d/%m")][1] = 0
+      @date_revenue[t.to_time.strftime("%d/%m")][2] = 0
       @checkins.each do |c|
-        amtd = c.revenue_for_day(t)
-        @date_revenue[t.to_time.strftime("%d/%m")] += amtd
+        arr = c.revenue_for_day(t)
+        @date_revenue[t.to_time.strftime("%d/%m")][0] += arr[0]
+        @date_revenue[t.to_time.strftime("%d/%m")][1] += arr[1]
+        @date_revenue[t.to_time.strftime("%d/%m")][2] += arr[2]
       end
       t = t - 1.day
     end

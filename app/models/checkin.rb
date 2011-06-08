@@ -53,6 +53,7 @@ class Checkin < ActiveRecord::Base
 
   def revenue_for_day(mydate)
     total = 0
+    payment = 0
     line_items.each do |li|
       if status.nil? 
         if mydate > li.fromdate.to_date and not li.freez
@@ -73,7 +74,11 @@ class Checkin < ActiveRecord::Base
 
     total += service_items.select("sum(amount) as amt").where(s[:date].gteq(st_time)).where(s[:date].lteq(en_time))[0].amt.to_i
 
-    return total
+    p = Payment.arel_table
+    payment += payments.select("sum(amount) as amt").where(p[:created_at].gteq(st_time)).where(p[:created_at].lteq(en_time))[0].amt.to_i
+
+
+    return total,payment,line_items.length
   end
 
 
