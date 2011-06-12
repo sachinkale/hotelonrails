@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
- # before_filter :authenticate_admin!
+ before_filter :authenticate_admin!, :only => ['new','edit','create','update','destroy']
 
   # GET /rooms
   # GET /rooms.xml

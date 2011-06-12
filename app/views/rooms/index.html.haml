@@ -1,14 +1,16 @@
-%h1 Listing rooms
-/%div{:style => "background:#ececec;padding:20px;border:1px solid #fff;width:500px;-moz-border-radius:0.8em;-moz-box-shadow:0 0 4px rgba(50, 50, 50, 0.5);"}
-.box
-  %table.roomlist{:cellspacing => 0}
-    - @rooms.each do |room|
-      %tr
-        %th{:scope => 'row'}= room.number
-        %td
-          = room.room_type.name
-          = link_to 'Show', room
-          = link_to 'Edit', edit_room_path(room)
-          = link_to 'Destroy', room, :confirm => 'Are you sure?', :method => :delete
-%br
-= link_to 'New Room', new_room_path
+.container_16
+  %h3 Listing rooms
+  .block-border
+    .block-content
+
+      %table.roomlist{:cellspacing => 0}
+        - @rooms.each do |room|
+          %tr
+            %th{:scope => 'row'}= room.number
+            %td
+              = room.room_type.name
+              = link_to 'Show', room
+              = link_to 'Edit', edit_room_path(room)
+              = link_to 'Destroy', room, :confirm => 'Are you sure?', :method => :delete
+    %br
+    = link_to 'New Room', new_room_path

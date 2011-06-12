@@ -1,7 +1,26 @@
-.grid_16
-  .block-border
-    .block-content
-      %h3 Admin Controls Space Holder
-      %p Admin Contols like adding/modifying rooms/users/rates/tax etc will go in here
+.block-border
+  .block-content
+    - if admin_signed_in?
+      .right
+        =link_to destroy_admin_session_path do
+          %span Logout
 
+    %h3 Welcome Admin
+    %p You can add/modify Room/Room Types
+    %br
+    %br
+    =link_to rooms_path do
+      %h2 Rooms
+    %br
+    %hr
+    =link_to room_types_path do
+      %h2 Room Types
+    %br
+    %hr
+    =link_to services_path do
+      %h2 Room Services
+    %br
+    %hr
+    =link_to services_path do
+      %h2 Add User
 
