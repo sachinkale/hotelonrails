@@ -31,7 +31,8 @@ class HomeController < ApplicationController
   end
 
   def send_report
-    @checkins = Checkin.where("created_at > '#{Date.today - 1}'")
+    ct = Checkin.arel
+    @checkins = Checkin.where(ct["created_at"].gteq(Date.today - 1.day)).or(ct["status"].eq(nil))
     ReportMailer.daily_report(@checkins).deliver
     render :text => "ok"
   end

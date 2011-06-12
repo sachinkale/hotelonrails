@@ -1,27 +1,21 @@
 %b="Todays Checkins"
+-amount = 0
 - @checkins.each do |checkin|
-  -total_amount = 0
+  - amount += checkin.revenue_for_day(Date.today)
   %table{:border => 1}
     %tr
       %th Room
       %th Fromdate
       %th Todate
-      %th ExtraPerson
-      %th Tax
-      %th Amount
+      %th Amount Per Day
     - checkin.line_items.each do |li|
       %tr
         %td= li.room.number
         %td= li.fromdate.strftime("%Y/%m/%d")
         %td= li.todate.strftime("%Y/%m/%d")
-        %td= li.extraperson
-        %td= li.tax.to_s + "%"
-        %td= li.no_of_days.to_s
-        %td= li.amount
-        -total_amount += li.amount
+        %td= li.amount_per_day
 
-    %tr
-      %th{:colspan => 5} Rooms Total Amount : 
-      %th
-        %span{:class => "room_total_amount"}= total_amount
+%h3
+  Total Amount :
+  =amount
 

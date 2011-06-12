@@ -1,9 +1,9 @@
 class ReportMailer < ActionMailer::Base
-  default :from => "brightspark@gmail.com"
+  default :from => "youremail@yourhotel.com"
 
   def daily_report(checkins)
     @checkins = checkins
-    mail(:to => "sachin@hotelsahara.in",
+    mail(:to => "reportmail@yourhotel.in",
      :subject => "Daily Report")
   end
 end
