@@ -44,11 +44,23 @@ class HomeController < ApplicationController
 
   def bar_chart_data
     ct = Checkin.arel_table
-    @checkins = Checkin.where(ct[:fromdate].gteq(Time.now.beginning_of_week().to_date - 1.day).or(ct[:status].eq(nil)))
+    startdate = Date.new
+    e = Date.new
+    if params[:date] and params[:date] != "undefined" and (Date.parse(params[:date]).beginning_of_week() - 1.day < Time.now.beginning_of_week().to_date)
+      startdate = Date.parse(params[:date]).beginning_of_week()
+      enddate = Date.parse(params[:date]).end_of_week()
+      @checkins = Checkin.where(ct[:fromdate].gteq(startdate)).where(ct[:todate].lteq(enddate))
+      @checkins.concat Checkin.where(ct[:fromdate].gteq(startdate)).where(ct[:status].eq(nil))
+      e = enddate
+    else
+      startdate =  Time.now.beginning_of_week().to_date
+      @checkins = Checkin.where(ct[:fromdate].gteq(startdate - 1.day).or(ct[:status].eq(nil)))
+      e = Date.today
+    end
     #@date_revenue = Hash.new
     @date_revenue = ActiveSupport::OrderedHash.new
-    t = Date.today
-    while t >= Time.now.beginning_of_week().to_date
+    t = startdate
+    while t <= e
       @date_revenue[t.to_time.strftime("%d/%m")] = Array.new
       @date_revenue[t.to_time.strftime("%d/%m")][0] = 0
       @date_revenue[t.to_time.strftime("%d/%m")][1] = 0
@@ -59,7 +71,7 @@ class HomeController < ApplicationController
         @date_revenue[t.to_time.strftime("%d/%m")][1] += arr[1]
         @date_revenue[t.to_time.strftime("%d/%m")][2] += arr[2]
       end
-      t = t - 1.day
+      t = t + 1.day
     end
 
   end

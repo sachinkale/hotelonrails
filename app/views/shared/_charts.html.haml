@@ -1,13 +1,25 @@
-%center
-  #piediv  
-  #bardiv
+#piediv  
+Select Date: 
+=text_field_tag :occupancy_date, "#{Date.today.strftime("%Y-%m-%d")}"
+#bardiv
 :javascript
-  var pie_chart = new FusionCharts("/charts/FCF_Pie3D.swf", "Pie", "350", "250");
-  pie_chart.setDataURL("#{pie_chart_data_url}");
-  pie_chart.render("piediv");
+  drawpie();
+  drawbar();
+  function drawpie(dat){
+    var pie_chart = new FusionCharts("/charts/FCF_Pie3D.swf", "Pie", "350", "250");
+    pie_url = "/home/pie_chart_data";
+    pie_chart.setDataURL(pie_url);
+    pie_chart.render("piediv");
+  }
 
-  var bar_chart = new FusionCharts("/charts/FCF_MSColumn3DLineDY.swf", "Bar", "450","300");
-  bar_chart.setDataURL("#{bar_chart_data_url}");
-  bar_chart.render("bardiv");
+  function drawbar(dat){
+    var bar_chart = new FusionCharts("/charts/FCF_MSColumn3DLineDY.swf", "Bar", "450","300");
+    bar_url = "/home/bar_chart_data?date=" + dat;
+    bar_chart.setDataURL(bar_url);
+    bar_chart.render("bardiv");
+  }
 
-
+  $('#occupancy_date').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
+  $('#occupancy_date').change(function() {
+    drawbar($('#occupancy_date').val());
+  });
