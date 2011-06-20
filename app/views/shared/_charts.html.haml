@@ -19,7 +19,7 @@ Select Date:
     bar_chart.render("bardiv");
   }
 
-  $('#occupancy_date').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
+  $('#occupancy_date').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd", maxDate: new Date()});
   $('#occupancy_date').change(function() {
     drawbar($('#occupancy_date').val());
   });

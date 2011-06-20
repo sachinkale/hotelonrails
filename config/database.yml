@@ -37,3 +37,13 @@ production:
   password: 
   socket: /var/run/mysqld/mysqld.sock
 
+restaurant:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: openbravospos
+  pool: 5
+  username: dbuser
+  password: 
+  socket: /var/run/mysqld/mysqld.sock
+

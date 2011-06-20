@@ -19,4 +19,17 @@ class Room < ActiveRecord::Base
     #Checkin.where("status is NOT NULL").line_items.each 
   end
 
+  def find_checkin_by_time(time)
+    li = LineItem.arel_table
+    litems = LineItem.where(li[:fromdate].lteq(time)).where(:room_id => id)
+    litems.each do |lit|
+      if lit.checkin.status.nil? and not lit.freez
+        return lit.checkin
+      elsif lit.todate > time
+        return lit.checkin
+      end
+    end
+    return nil
+  end
+
 end

@@ -166,7 +166,7 @@
     $('#todatepicker' + id).removeClass('hasDatepicker')
     $('#fromdatepicker' + id).removeClass('hasDatepicker')
 
-    $('#fromdatepicker' + id).datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
+    $('#fromdatepicker' + id).datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd", maxDate: new Date()});
     $('#todatepicker' + id).datepicker({dateFormat: "yy-mm-dd", defaultDate: Date.today});
     calculateall();
     $('.total tr:nth-child(' + trows  + ')').effect('highlight',2000);
@@ -196,8 +196,8 @@
     return (Math.floor(noofdays/ (1000 * 60 * 60 * 24)));
     }  
    $(function(){
-     $('#fromdatepicker1').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd"});
-     $('#todatepicker1').datepicker({ dateFormat: "yy-mm-dd", defaultDate: Date.today});
+     $('#fromdatepicker1').datepicker({ defaultDate: Date.today, dateFormat: "yy-mm-dd", maxDate: new Date()});
+     $('#todatepicker1').datepicker({ dateFormat: "yy-mm-dd", defaultDate: Date.today, maxDate: new Date()});
    });
   function calculateall(){
     rows = $('.total tr').length - 4;
