@@ -84,8 +84,10 @@ class Checkin < ActiveRecord::Base
 
   def checkout
     line_items.each do |li|
-      li.update_attribute(:todate, Time.now.in_time_zone)
-      li.room.update_attribute('status',nil)
+      if not li.freez
+        li.update_attribute(:todate, Time.now.in_time_zone) 
+        li.room.update_attribute('status',nil)
+      end
     end
     update_attribute(:status, "checked out")
     update_attribute(:todate, Time.now.in_time_zone)
