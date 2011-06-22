@@ -12,3 +12,8 @@
   = label_tag "tax"
   = f.text_field :tax
   \%
+  %br
+  - if @line_item.freez
+    =label_tag "Shift Room Date and Time:"
+    %br
+    =datetime_select(:line_item1,:todate, :default => @line_item.todate.in_time_zone(APP_CONFIG['hotel_time_zone']))
