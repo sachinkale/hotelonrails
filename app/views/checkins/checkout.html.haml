@@ -83,7 +83,7 @@
                   %td= li.fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
                   - if li.todate.nil? 
                     %td= Time.now.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
-                  - elsif @checkin.status.nil? and li.todate < Time.now
+                  - elsif @checkin.status.nil? and li.todate < Time.now and not li.freez
                     %td= Time.now.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
                   - else
                     %td= li.todate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R") 
