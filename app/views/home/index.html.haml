@@ -60,6 +60,10 @@
     =label_tag "tax"
     =text_field_tag :tax
     \%
+    %br
+    =label_tag "Time of Shift"
+    =time_select :shift_room,"shift_time"
+
 #edit_line_item_dialog{:title => "Edit Checkin",:style => "display:none"}
   #line_item_form
 

@@ -189,7 +189,7 @@ class CheckinsController < ApplicationController
     line_item = LineItem.where("checkin_id = ? and room_id = ?",checkin.id,from_room.id).first
 
     if params[:rate] == ""
-      rate = to_room.room_type.base_rate
+      rate = to_room.room_type.baserate
     else
       rate = params[:rate].to_i
     end
@@ -199,10 +199,13 @@ class CheckinsController < ApplicationController
     else 
       tax = params[:tax]
     end
+    
+    shift_time = Time.local(params[:shift_room]["shift_time(1i)"],params[:shift_room]["shift_time(2i)"],params[:shift_room]["shift_time(3i)"],params[:shift_room]["shift_time(4i)"],params[:shift_room]["shift_time(5i)"])
+
 
     if line_item.no_of_days > 1 
-      line_item.update_attributes(:todate => Time.now, :freez => true)
-      new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => Time.now, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax, :rate => rate})
+      line_item.update_attributes(:todate => shift_time, :freez => true)
+      new_line_item = LineItem.create({:room_id => to_room.id, :fromdate => shift_time, :checkin_id => checkin.id, :extraperson => line_item.extraperson, :tax => line_item.tax, :rate => rate})
     else
       line_item.update_attribute(:room_id,to_room.id)
       line_item.update_attribute(:rate,rate)
