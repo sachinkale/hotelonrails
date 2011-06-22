@@ -77,7 +77,9 @@
   &nbsp;?
   =form_tag unblock_room_url,:id => :unblock_room_form, :method => :put do
     =hidden_field_tag :unblock_room_id
-
+#add_company_dialog{:title => "Add Company/Guests", :style => "display:none"}
+  Add Guest
+  
 
 :javascript
   $('#service_form').bind("ajax:loading",  function(){

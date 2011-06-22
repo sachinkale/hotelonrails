@@ -81,7 +81,12 @@
                   %td= li.tax.to_s + "%"
                   %td= (li.rate  + li.extraperson + ((li.rate + li.extraperson) * li.tax/100).to_i ) 
                   %td= li.fromdate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
-                  %td= li.todate.nil? ? @checkin.updated_at.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R") : li.todate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
+                  - if li.todate.nil? 
+                    %td= Time.now.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
+                  - elsif @checkin.status.nil? and li.todate < Time.now
+                    %td= Time.now.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R")
+                  - else
+                    %td= li.todate.in_time_zone(APP_CONFIG['hotel_time_zone']).strftime("%d-%m-%y %R") 
                   %td= li.no_of_days.to_s
                   %td= li.amount
                   -tamount += li.amount

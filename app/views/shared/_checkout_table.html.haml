@@ -7,6 +7,9 @@
         %li= @checkin.guests[0].name
       - else
         %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| g.name})
+      %li{:style => "padding-left:20px"}
+        =link_to "Add Company/Guests", "#"
+
     -else
       %li= select_tag :bill_to, options_for_select(@checkin.guests.collect{|g| [g.name, "Guest-#{g.id}"]}.unshift([@checkin.company.name, "Company-#{@checkin.company.id}"]))
   #line_items
