@@ -320,6 +320,11 @@ background-image:url('/images/Loading.png');
 background-image:url('/images/Profile.png');
 background-position:3px 2px;
 }
+#header ul li.report a{
+background-image:url('/images/bar_chart.png');
+background-position:8px 2px;
+}
+
 #header ul li.admin a{
 background-image:url('/images/admin.png');
 background-position:8px 2px;

@@ -13,9 +13,10 @@
     = javascript_include_tag "jquery-ui-1.8.6.custom.min"
     = javascript_include_tag "jquery.validate.min"
     = javascript_include_tag "rails"
-    = javascript_include_tag "jquery.hoverIntent"
-    = javascript_include_tag "jquery.cluetip"
-    = javascript_include_tag "FusionCharts"
+    - if current_page?(user_root_url)
+      = javascript_include_tag "jquery.hoverIntent"
+      = javascript_include_tag "jquery.cluetip"
+      = javascript_include_tag "FusionCharts"
     = csrf_meta_tag
   %body
     .notice
