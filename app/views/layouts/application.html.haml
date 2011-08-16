@@ -25,6 +25,7 @@
     %div{:style => "width:100%"}
       = yield
     .clear
+    =render :partial => "shared/uservoice"
     :javascript
       $('.close_alert').click(function () {
         $(this).parent().slideUp('slow');

@@ -1,5 +1,7 @@
 Hsahara::Application.routes.draw do
 
+  ActiveAdmin.routes(self)
+
   get "home/report", :as => :report
 
   get "home/pie_chart_data", :as => :pie_chart_data
@@ -32,6 +34,7 @@ Hsahara::Application.routes.draw do
 
   devise_for :users
 
+
   resources :services
 
   resources :companies
@@ -55,6 +58,7 @@ Hsahara::Application.routes.draw do
   resources :room_types
 
   resources :guests
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
