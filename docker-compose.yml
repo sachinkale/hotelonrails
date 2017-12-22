@@ -1,0 +1,43 @@
+version: "2"
+
+---
+volumes:
+  mysql-data:
+    driver: local
+  rails-data:
+    driver: local
+
+
+---
+services:
+  db:
+    image: mysql:5.7
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: database_name
+    volumes:
+    - mysql-data:/var/lib/mysql
+    env_file:
+    - dev.env
+  web:
+    image: your_image_name_here:latest
+    build:
+      context: "."
+      dockerfile: dev.Dockerfile
+    command: rails server -b 0.0.0.0 -p 3000 -P /tmp/rails.pid
+    ports:
+    - 3000:3000
+    working_dir: "/usr/src/app"
+    volumes:
+    - ".:/usr/src/app"
+    - rails-data:/usr/local/bundle
+    stdin_open: true
+    tty: true
+    links:
+    - db
+    depends_on:
+    - db
+    env_file:
+    - dev.env
